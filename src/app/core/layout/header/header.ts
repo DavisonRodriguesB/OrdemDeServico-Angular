@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-allocation',
+  selector: 'app-header',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './allocation.html',
-  styleUrl: './allocation.css',
+  templateUrl: './header.html',
+  styleUrls: ['./header.css']
 })
-export class Allocation {
-
-}
+export class HeaderComponent {}

@@ -1,51 +1,25 @@
 import { Routes } from '@angular/router';
 
+import { MainLayoutComponent } from './core/layout/main-layout/main-layout';
+import { DashboardComponent } from './features/dashboard/pages/dashboard/dashboard';
+import { TeamsComponent } from './features/teams/pages/teams';
+import { ServiceOrder } from './features/service-orders/pages/service-order';
+import { Allocation } from './features/allocation/pages/allocation/allocation';
+import { Routing } from './features/routing/pages/routing/routing';
+import { Reports } from './features/reports/pages/reports/reports';
+
 export const routes: Routes = [
   {
-    path: 'dashboard',
-    loadComponent: () =>
-      import('./features/dashboard/pages/dashboard/dashboard')
-        .then(c => c.DashboardComponent)
-  },
-
-  {
-    path: 'teams',
-    loadComponent: () =>
-      import('./features/teams/services/teams/teams')
-        .then(c => c.TeamsComponent)
-  },
-
-  {
-    path: 'reports',
-    loadComponent: () =>
-      import('./features/reports/pages/reports/reports')
-        .then(c => c.Reports)
-  },
-
-  {
-    path: 'allocation',
-    loadComponent: () =>
-      import('./features/allocation/pages/allocation/allocation')
-        .then(c => c.Allocation)
-  },
-
-  {
-    path: 'routing',
-    loadComponent: () =>
-      import('./features/routing/pages/routing/routing')
-        .then(c => c.Routing)
-  },
-
-  {
-    path: 'service-orders',
-    loadComponent: () =>
-      import('./features/service-orders/services/service-order/service-order')
-        .then(c => c.ServiceOrder)
-  },
-
-  {
     path: '',
-    redirectTo: '',
-    pathMatch: 'full'
+    component: MainLayoutComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'teams', component: TeamsComponent },
+      { path: 'service-order', component: ServiceOrder },
+      { path: 'allocation', component: Allocation},
+      { path: 'routing', component: Routing},
+      { path: 'reports', component: Reports},
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
   }
 ];
