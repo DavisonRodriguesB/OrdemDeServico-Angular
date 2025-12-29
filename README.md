@@ -23,11 +23,17 @@ O foco principal é arquitetura frontend, organização de código, roteamento, 
 O projeto segue uma arquitetura organizada e escalável:
 
 src/app/
-├── core/        → Serviços globais, layout e utilidades
-├── shared/      → Componentes reutilizáveis, modelos e enums
-├── features/    → Funcionalidades do sistema (páginas)
+
+├── core/ 
+
+├── shared/ 
+
+├── features/
+
 ├── app.routes.ts
-├── app.config.ts
+
+├── app.ts
+
 └── app.component.*
 
 🔹 Padrão adotado
@@ -52,4 +58,5 @@ Separação clara de responsabilidades
 Este projeto foi desenvolvido com foco em: Portfólio pessoal, Processos seletivos, Demonstração de domínio em Angular moderno, Boas práticas de arquitetura frontend
 
 👤 Autor: Davison Rodrigues
+
 Projeto em desenvolvimento para fins educacionais e profissionais.
