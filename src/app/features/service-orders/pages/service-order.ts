@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-service-order',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterOutlet],
   templateUrl: './service-order.html',
-  styleUrl: './service-order.css',
+  styleUrls: ['./service-order.css'],
 })
-export class ServiceOrder {
-
-}
+export class ServiceOrder {}
