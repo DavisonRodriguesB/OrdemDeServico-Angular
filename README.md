@@ -1,59 +1,55 @@
-# OrdemDeServicoAngular
+Sistema de Ordem de Serviço e Roteirização (Em desenvolvimento)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.2.
+(Angular • Standalone • Frontend)
 
-## Development server
+🔹  Objetivo do Projeto
 
-To start a local development server, run:
+Este projeto tem como objetivo demonstrar, de forma prática, a construção de um Sistema de Gestão de Ordens de Serviço (OS) voltado para planejamento, execução e acompanhamento de serviços em campo.
 
-```bash
-ng serve
-```
+O foco principal é arquitetura frontend, organização de código, roteamento, componentização e lógica de negócio, utilizando Angular moderno (Standalone) e Tailwind CSS, com dados mockados (sem backend).
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+🔹  Tecnologias Utilizadas
 
-## Code scaffolding
+- Angular (Standalone Components)
+- Angular Router
+- TypeScript
+- Tailwind CSS
+- Git & GitHub
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+⚠️ Este projeto não utiliza backend. Todos os dados são simulados (mock).
 
-```bash
-ng generate component component-name
-```
+🔹 Arquitetura do Projeto
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+O projeto segue uma arquitetura organizada e escalável:
 
-```bash
-ng generate --help
-```
+src/app/
+├── core/        → Serviços globais, layout e utilidades
+├── shared/      → Componentes reutilizáveis, modelos e enums
+├── features/    → Funcionalidades do sistema (páginas)
+├── app.routes.ts
+├── app.config.ts
+└── app.component.*
 
-## Building
+🔹 Padrão adotado
 
-To build the project run:
+Angular Standalone
+Lazy loading por componente (loadComponent)
+Rotas centralizadas em app.routes.ts
+Separação clara de responsabilidades
 
-```bash
-ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+🔹  Regras de Negócio
 
-## Running unit tests
+- Equipes só recebem serviços compatíveis com seu tipo
+- Serviços concluídos não podem ser editados
+- Execução só ocorre após atribuição
+- Retorno de campo obrigatório para conclusão
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
 
-```bash
-ng test
-```
 
-## Running end-to-end tests
+🎓 Objetivo Profissional
 
-For end-to-end (e2e) testing, run:
+Este projeto foi desenvolvido com foco em: Portfólio pessoal, Processos seletivos, Demonstração de domínio em Angular moderno, Boas práticas de arquitetura frontend
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+👤 Autor: Davison Rodrigues
+Projeto em desenvolvimento para fins educacionais e profissionais.
