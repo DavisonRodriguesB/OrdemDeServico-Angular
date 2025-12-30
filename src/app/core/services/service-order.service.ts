@@ -9,25 +9,38 @@ export class ServiceOrderService {
 
   private serviceOrders: ServiceOrder[] = [...SERVICE_ORDERS_MOCK];
 
+  /** Listar todas as OS */
   listar(): ServiceOrder[] {
     return this.serviceOrders;
   }
 
-  criar(ordem: ServiceOrder): void {
+  /** Buscar OS por ID */
+  buscarPorId(id: number): ServiceOrder | undefined {
+    return this.serviceOrders.find(os => os.id === id);
+  }
+
+  /** Criar nova OS */
+  criar(os: ServiceOrder): void {
     const novoId =
       this.serviceOrders.length > 0
         ? Math.max(...this.serviceOrders.map(o => o.id)) + 1
         : 1;
 
-    const novaOS: ServiceOrder = {
-      ...ordem,
+    this.serviceOrders.push({
+      ...os,
       id: novoId,
-    };
-
-    this.serviceOrders.push(novaOS);
+    });
   }
 
-  buscarPorId(id: number): ServiceOrder | undefined {
-    return this.serviceOrders.find(o => o.id === id);
+  /** Atualizar OS existente */
+  atualizar(id: number, osAtualizada: ServiceOrder): void {
+    const index = this.serviceOrders.findIndex(os => os.id === id);
+
+    if (index !== -1) {
+      this.serviceOrders[index] = {
+        ...osAtualizada,
+        id,
+      };
+    }
   }
 }

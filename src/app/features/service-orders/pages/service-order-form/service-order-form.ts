@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CurrencyMaskDirective } from '../../../../shared/directives/currency-mask.directive';
 
+import { CurrencyMaskDirective } from '../../../../shared/directives/currency-mask.directive';
 import { ServiceOrderService } from '../../../../core/services/service-order.service';
+import { ServiceOrder } from '../../models/service-order.model';
 
 @Component({
   selector: 'app-service-order-form',
@@ -16,10 +22,15 @@ export class ServiceOrderFormComponent implements OnInit {
 
   form!: FormGroup;
 
+  /** Controle de edição */
+  isEdit = false;
+  osId!: number;
+
   constructor(
     private fb: FormBuilder,
     private serviceOrderService: ServiceOrderService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +46,24 @@ export class ServiceOrderFormComponent implements OnInit {
 
       bairro: ['', Validators.required],
     });
+
+    /** Verifica se é edição */
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    if (idParam) {
+      this.isEdit = true;
+      this.osId = Number(idParam);
+
+      const os = this.serviceOrderService.buscarPorId(this.osId);
+
+      if (os) {
+        this.form.patchValue(os);
+      }
+    }
+  }
+
+  cancelar(): void {
+    this.router.navigate(['/service-order']);
   }
 
   salvar(): void {
@@ -43,7 +72,13 @@ export class ServiceOrderFormComponent implements OnInit {
       return;
     }
 
-    this.serviceOrderService.criar(this.form.value);
+    const data = this.form.value as ServiceOrder;
+
+    if (this.isEdit) {
+      this.serviceOrderService.atualizar(this.osId, data);
+    } else {
+      this.serviceOrderService.criar(data);
+    }
 
     // Volta para a listagem
     this.router.navigate(['/service-order']);

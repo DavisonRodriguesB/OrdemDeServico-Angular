@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
 import { ServiceOrder } from '../../models/service-order.model';
+import { SERVICE_ORDERS_MOCK } from '../../../../core/services/service-order.mock';
 import { ServiceOrderService } from '../../../../core/services/service-order.service';
 
 @Component({
@@ -20,7 +21,7 @@ import { ServiceOrderService } from '../../../../core/services/service-order.ser
   templateUrl: './service-order-list.html',
   styleUrls: ['./service-order-list.css'],
 })
-export class ServiceOrderListComponent implements OnInit {
+export class ServiceOrderListComponent {
 
   /** Texto digitado no filtro */
   searchTerm = '';
@@ -28,16 +29,16 @@ export class ServiceOrderListComponent implements OnInit {
   /** Fonte de dados */
   allServiceOrders: ServiceOrder[] = [];
 
-  constructor(
-    private serviceOrderService: ServiceOrderService
-  ) {}
-
-  ngOnInit(): void {
-    this.allServiceOrders = this.serviceOrderService.listar();
-  }
+constructor(
+  private router: Router,
+  private serviceOrderService: ServiceOrderService
+) {
+  this.allServiceOrders = this.serviceOrderService.listar();
+}
 
   /**
    * Lista filtrada automaticamente
+   * Atualiza sozinha quando searchTerm muda
    */
   get serviceOrders(): ServiceOrder[] {
     if (!this.searchTerm) {
@@ -54,6 +55,11 @@ export class ServiceOrderListComponent implements OnInit {
       os.status.toLowerCase().includes(term) ||
       os.bairro.toLowerCase().includes(term)
     );
+  }
+
+  /** Navegar para edição da OS */
+  editar(os: ServiceOrder): void {
+    this.router.navigate(['/service-orders/editar', os.id]);
   }
 
   /** Exportar Excel */
@@ -81,7 +87,7 @@ export class ServiceOrderListComponent implements OnInit {
       type: 'application/octet-stream',
     });
 
-    saveAs(blob, 'ordens-de-servico.xlsx');
+    saveAs(blob, `ordens-de-servico.xlsx`);
   }
 
   getStatusClass(status: string): string {
