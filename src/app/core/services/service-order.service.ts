@@ -1,48 +1,33 @@
+import { Injectable } from '@angular/core';
 import { ServiceOrder } from '../../features/service-orders/models/service-order.model';
+import { SERVICE_ORDERS_MOCK } from './service-order.mock';
 
-export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
-  {
-    id: 1,
-    osNumber: 'OS-2025-001',
-    name: 'Instalação de ponto comercial',
-    type: 'Comercial',
-    priority: 'BAIXA',
-    status: 'ABERTO',
-    value: 4500,
-    deadlineDays: 5,
-    neighborhood: 'Centro',
-  },
-  {
-    id: 2,
-    osNumber: 'OS-2025-002',
-    name: 'Manutenção elétrica',
-    type: 'Manutenção',
-    priority: 'MEDIA',
-    status: 'EM_EXECUCAO',
-    value: 1200,
-    deadlineDays: 2,
-    neighborhood: 'Vila Nova',
-  },
-  {
-    id: 3,
-    osNumber: 'OS-2025-003',
-    name: 'Poda de Arvores',
-    type: 'Obras',
-    priority: 'URGENTE',
-    status: 'ATRIBUIDO',
-    value: 9800,
-    deadlineDays: 10,
-    neighborhood: 'Jardim Sul',
-  },
-  {
-    id: 4,
-    osNumber: 'OS-2025-004',
-    name: 'Religação de Urgencia',
-    type: 'Comercial',
-    priority: 'ALTA',
-    status: 'CONCLUIDO',
-    value: 4500,
-    deadlineDays: 7,
-    neighborhood: 'Planalto',
-  },
-];
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceOrderService {
+
+  private serviceOrders: ServiceOrder[] = [...SERVICE_ORDERS_MOCK];
+
+  listar(): ServiceOrder[] {
+    return this.serviceOrders;
+  }
+
+  criar(ordem: ServiceOrder): void {
+    const novoId =
+      this.serviceOrders.length > 0
+        ? Math.max(...this.serviceOrders.map(o => o.id)) + 1
+        : 1;
+
+    const novaOS: ServiceOrder = {
+      ...ordem,
+      id: novoId,
+    };
+
+    this.serviceOrders.push(novaOS);
+  }
+
+  buscarPorId(id: number): ServiceOrder | undefined {
+    return this.serviceOrders.find(o => o.id === id);
+  }
+}

@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[currencyMask]',
+  selector: '[appCurrencyMask]',
   standalone: true,
 })
 export class CurrencyMaskDirective {

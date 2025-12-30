@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
 import { ServiceOrder } from '../../models/service-order.model';
-import { SERVICE_ORDERS_MOCK } from '../../../../core/services/service-order.service';
+import { ServiceOrderService } from '../../../../core/services/service-order.service';
 
 @Component({
   selector: 'app-service-order-list',
@@ -20,17 +20,24 @@ import { SERVICE_ORDERS_MOCK } from '../../../../core/services/service-order.ser
   templateUrl: './service-order-list.html',
   styleUrls: ['./service-order-list.css'],
 })
-export class ServiceOrderListComponent {
+export class ServiceOrderListComponent implements OnInit {
 
   /** Texto digitado no filtro */
   searchTerm = '';
 
   /** Fonte de dados */
-  allServiceOrders: ServiceOrder[] = SERVICE_ORDERS_MOCK;
+  allServiceOrders: ServiceOrder[] = [];
+
+  constructor(
+    private serviceOrderService: ServiceOrderService
+  ) {}
+
+  ngOnInit(): void {
+    this.allServiceOrders = this.serviceOrderService.listar();
+  }
 
   /**
    * Lista filtrada automaticamente
-   * Atualiza sozinha quando searchTerm muda
    */
   get serviceOrders(): ServiceOrder[] {
     if (!this.searchTerm) {
@@ -40,24 +47,24 @@ export class ServiceOrderListComponent {
     const term = this.searchTerm.toLowerCase();
 
     return this.allServiceOrders.filter(os =>
-      os.osNumber.toLowerCase().includes(term) ||
-      os.name.toLowerCase().includes(term) ||
-      os.type.toLowerCase().includes(term) ||
-      os.priority.toLowerCase().includes(term) ||
+      os.os.toLowerCase().includes(term) ||
+      os.servico.toLowerCase().includes(term) ||
+      os.tipo.toLowerCase().includes(term) ||
+      os.prioridade.toLowerCase().includes(term) ||
       os.status.toLowerCase().includes(term) ||
-      os.neighborhood.toLowerCase().includes(term)
+      os.bairro.toLowerCase().includes(term)
     );
   }
 
   /** Exportar Excel */
   exportToExcel(): void {
     const data = this.serviceOrders.map(os => ({
-      OS: os.osNumber,
-      Serviço: os.name,
-      Tipo: os.type,
-      Prioridade: os.priority,
+      OS: os.os,
+      Serviço: os.servico,
+      Tipo: os.tipo,
+      Prioridade: os.prioridade,
       Status: os.status,
-      Bairro: os.neighborhood,
+      Bairro: os.bairro,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -74,7 +81,7 @@ export class ServiceOrderListComponent {
       type: 'application/octet-stream',
     });
 
-    saveAs(blob, `ordens-de-servico.xlsx`);
+    saveAs(blob, 'ordens-de-servico.xlsx');
   }
 
   getStatusClass(status: string): string {

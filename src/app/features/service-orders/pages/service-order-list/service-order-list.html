@@ -54,23 +54,23 @@
               class="border-b border-gray-300 hover:bg-gray-100 transition-colors"
             >
               <td class="p-4 font-medium">
-                {{ os.osNumber }}
+                {{ os.os }}
               </td>
 
               <td class="p-4">
-                {{ os.name }}
+                {{ os.servico }}
               </td>
 
               <td class="p-4">
-                {{ os.type }}
+                {{ os.tipo }}
               </td>
 
               <td class="p-4">
                 <span
                   class="px-3 py-1 rounded-full text-xs font-semibold"
-                  [ngClass]="getPriorityClass(os.priority)"
+                  [ngClass]="getPriorityClass(os.prioridade)"
                 >
-                  {{ os.priority }}
+                  {{ os.prioridade }}
                 </span>
               </td>
 
@@ -84,7 +84,7 @@
               </td>
 
               <td class="p-4">
-                {{ os.neighborhood }}
+                {{ os.bairro }}
               </td>
 
               <td class="p-4 flex gap-2">

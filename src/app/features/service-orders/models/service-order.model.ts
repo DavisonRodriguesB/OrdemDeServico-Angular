@@ -18,12 +18,12 @@ export type ServiceOrderType =
 
 export interface ServiceOrder {
   id: number;
-  osNumber: string;
-  name: string;
-  type: ServiceOrderType;
-  priority: ServiceOrderPriority;
+  os: string;
+  servico: string;
+  tipo: ServiceOrderType;
+  prioridade: ServiceOrderPriority;
   status: ServiceOrderStatus;
-  value: number;
-  deadlineDays: number;
-  neighborhood: string;
+  valor: number;
+  prazoDias: number;
+  bairro: string;
 }

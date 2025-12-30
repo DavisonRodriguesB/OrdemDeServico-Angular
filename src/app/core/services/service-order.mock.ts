@@ -1,0 +1,48 @@
+import { ServiceOrder } from '../../features/service-orders/models/service-order.model';
+
+export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
+  {
+    id: 1,
+    os: '2025-001',
+    servico: 'Instalação de ponto comercial',
+    tipo: 'Comercial',
+    prioridade: 'BAIXA',
+    status: 'ABERTO',
+    valor: 4500,
+    prazoDias: 5,
+    bairro: 'Centro',
+  },
+  {
+    id: 2,
+    os: '2025-002',
+    servico: 'Manutenção elétrica',
+    tipo: 'Manutenção',
+    prioridade: 'MEDIA',
+    status: 'EM_EXECUCAO',
+    valor: 1200,
+    prazoDias: 2,
+    bairro: 'Vila Nova',
+  },
+  {
+    id: 3,
+    os: '2025-003',
+    servico: 'Poda de Arvores',
+    tipo: 'Obras',
+    prioridade: 'URGENTE',
+    status: 'ATRIBUIDO',
+    valor: 9800,
+    prazoDias : 10,
+    bairro: 'Jardim Sul',
+  },
+  {
+    id: 4,
+    os: '2025-004',
+    servico: 'Religação de Urgência',
+    tipo: 'Comercial',
+    prioridade: 'ALTA',
+    status: 'CONCLUIDO',
+    valor: 4500,
+    prazoDias: 7,
+    bairro: 'Planalto',
+  },
+];
