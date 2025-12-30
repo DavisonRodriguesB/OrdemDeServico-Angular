@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 import { ServiceOrder } from '../../models/service-order.model';
 import { SERVICE_ORDERS_MOCK } from '../../../../core/services/service-order.service';
@@ -8,20 +12,77 @@ import { SERVICE_ORDERS_MOCK } from '../../../../core/services/service-order.ser
 @Component({
   selector: 'app-service-order-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink,
+    FormsModule
+  ],
   templateUrl: './service-order-list.html',
   styleUrls: ['./service-order-list.css'],
 })
-
 export class ServiceOrderListComponent {
-  serviceOrders: ServiceOrder[] = SERVICE_ORDERS_MOCK;
+
+  /** Texto digitado no filtro */
+  searchTerm = '';
+
+  /** Fonte de dados */
+  allServiceOrders: ServiceOrder[] = SERVICE_ORDERS_MOCK;
+
+  /**
+   * Lista filtrada automaticamente
+   * Atualiza sozinha quando searchTerm muda
+   */
+  get serviceOrders(): ServiceOrder[] {
+    if (!this.searchTerm) {
+      return this.allServiceOrders;
+    }
+
+    const term = this.searchTerm.toLowerCase();
+
+    return this.allServiceOrders.filter(os =>
+      os.osNumber.toLowerCase().includes(term) ||
+      os.name.toLowerCase().includes(term) ||
+      os.type.toLowerCase().includes(term) ||
+      os.priority.toLowerCase().includes(term) ||
+      os.status.toLowerCase().includes(term) ||
+      os.neighborhood.toLowerCase().includes(term)
+    );
+  }
+
+  /** Exportar Excel */
+  exportToExcel(): void {
+    const data = this.serviceOrders.map(os => ({
+      OS: os.osNumber,
+      Serviço: os.name,
+      Tipo: os.type,
+      Prioridade: os.priority,
+      Status: os.status,
+      Bairro: os.neighborhood,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Ordens de Serviço');
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    const blob = new Blob([excelBuffer], {
+      type: 'application/octet-stream',
+    });
+
+    saveAs(blob, `ordens-de-servico.xlsx`);
+  }
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      ABERTO: 'bg-gray-100 text-gray-800',
+      ABERTO: 'bg-slate-200 text-gray-800',
       ATRIBUIDO: 'bg-blue-100 text-blue-800',
       EM_EXECUCAO: 'bg-yellow-100 text-yellow-800',
-      CONCLUIDO: 'bg-green-100 text-green-800',
+      CONCLUIDO: 'bg-green-200 text-green-800',
       CANCELADO: 'bg-red-100 text-red-800',
     };
 
@@ -30,7 +91,7 @@ export class ServiceOrderListComponent {
 
   getPriorityClass(priority: string): string {
     const map: Record<string, string> = {
-      BAIXA: 'bg-slate-100 text-slate-700',
+      BAIXA: 'bg-slate-200 text-slate-700',
       MEDIA: 'bg-indigo-100 text-indigo-700',
       ALTA: 'bg-orange-100 text-orange-800',
       URGENTE: 'bg-red-100 text-red-800',

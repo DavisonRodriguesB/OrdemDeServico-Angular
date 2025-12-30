@@ -12,9 +12,9 @@ export type ServiceOrderPriority =
   | 'URGENTE';
 
 export type ServiceOrderType =
-  | 'COMERCIAL'
-  | 'MANUTENCAO'
-  | 'OBRAS';
+  | 'Comercial'
+  | 'Manutenção'
+  | 'Obras';
 
 export interface ServiceOrder {
   id: number;
