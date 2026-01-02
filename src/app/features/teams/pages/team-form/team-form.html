@@ -1,1 +1,162 @@
-<p>team-form works!</p>
+<form
+  [formGroup]="form"
+  (ngSubmit)="salvar()"
+  class="bg-white rounded-xl shadow-sm p-8 border border-gray-200 space-y-6"
+>
+
+  <!-- Título -->
+  <div>
+    <h2 class="text-2xl font-bold text-gray-700">
+      {{ isEdit ? 'Editar Equipe' : 'Criar Equipe' }}
+    </h2>
+    <p class="text-gray-500 text-sm">
+      Preencha os dados da equipe responsável pela execução dos serviços
+    </p>
+  </div>
+
+  <!-- Nome -->
+  <div>
+    <label class="block text-sm font-medium text-gray-600 mb-1">
+      Nome da equipe
+    </label>
+
+    <input
+      type="text"
+      formControlName="nome"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+
+    <p
+      *ngIf="form.get('nome')?.touched && form.get('nome')?.invalid"
+      class="text-sm text-red-500 mt-1"
+    >
+      Nome é obrigatório (mínimo 3 caracteres)
+    </p>
+  </div>
+
+  <!-- Linha 1: Tipo de Serviço | Quantidade -->
+  <div class="grid grid-cols-2 gap-4">
+    <!-- Tipo de Serviço -->
+    <div>
+      <label class="block text-sm font-medium text-gray-600 mb-1">
+        Tipo de Serviço
+      </label>
+
+      <select
+        formControlName="tipoServico"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="">Selecione</option>
+        <option *ngFor="let tipo of tiposServico" [value]="tipo.value">
+          {{ tipo.label }}
+        </option>
+      </select>
+
+      <p
+        *ngIf="form.get('tipoServico')?.touched && form.get('tipoServico')?.invalid"
+        class="text-sm text-red-500 mt-1"
+      >
+        Tipo de serviço é obrigatório
+      </p>
+    </div>
+
+    <!-- Quantidade de Membros -->
+    <div>
+      <label class="block text-sm font-medium text-gray-600 mb-1">
+        Quantidade de membros
+      </label>
+
+      <input
+        type="number"
+        min="1"
+        formControlName="quantidadeMembros"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <p
+        *ngIf="form.get('quantidadeMembros')?.touched && form.get('quantidadeMembros')?.invalid"
+        class="text-sm text-red-500 mt-1"
+      >
+        Informe ao menos 1 membro
+      </p>
+    </div>
+  </div>
+
+  <!-- Linha 2: Responsável | Status -->
+  <div class="grid grid-cols-2 gap-4">
+    <!-- Responsável -->
+    <div>
+      <label class="block text-sm font-medium text-gray-600 mb-1">
+        Responsável
+      </label>
+
+      <input
+        type="text"
+        formControlName="responsavel"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <p
+        *ngIf="form.get('responsavel')?.touched && form.get('responsavel')?.invalid"
+        class="text-sm text-red-500 mt-1"
+      >
+        Responsável é obrigatório
+      </p>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label class="block text-sm font-medium text-gray-600 mb-1">
+        Status
+      </label>
+
+      <select
+        formControlName="status"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="ATIVA">Ativa</option>
+        <option value="INATIVA">Inativa</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Descrição -->
+  <div>
+    <label class="block text-sm font-medium text-gray-600 mb-1">
+      Descrição
+    </label>
+
+    <textarea
+      rows="4"
+      formControlName="descricao"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+    ></textarea>
+  </div>
+
+  <!-- Botões -->
+  <div class="flex justify-end gap-3 pt-4">
+    <button
+      type="button"
+      (click)="cancelar()"
+      class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+    >
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="px-6 py-2 bg-blue-900 text-white rounded-lg
+             hover:bg-blue-800 disabled:opacity-50"
+    >
+      {{ isEdit ? 'Salvar alterações' : 'Criar equipe' }}
+    </button>
+  </div>
+
+</form>
