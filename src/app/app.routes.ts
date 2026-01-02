@@ -11,6 +11,8 @@ import { Reports } from './features/reports/pages/reports/reports';
 import { ServiceOrderListComponent } from './features/service-orders/pages/service-order-list/service-order-list';
 import { ServiceOrderFormComponent } from './features/service-orders/pages/service-order-form/service-order-form';
 import { ServiceOrderExecutionComponent } from './features/service-orders/pages/service-order-execution/service-order-execution';
+import { TeamFormComponent } from './features/teams/pages/team-form/team-form';
+import { TeamListComponent } from './features/teams/pages/team-list/team-list';
 
 export const routes: Routes = [
   {
@@ -18,7 +20,15 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'teams', component: TeamsComponent },
+      {
+          path: 'teams',
+        component: TeamsComponent,
+        children: [
+          { path: '', component: TeamListComponent, },
+          { path: 'new', component: TeamFormComponent },
+          { path: ':id/edit', component: TeamFormComponent },
+        ],
+      },
 
       {
         path: 'service-order',
