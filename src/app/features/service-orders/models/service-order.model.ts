@@ -26,4 +26,8 @@ export interface ServiceOrder {
   valor: number;
   prazoDias: number;
   bairro: string;
+
+  /** Coordenadas geográficas (necessárias para roteirização) */
+  latitude: number;
+  longitude: number;
 }
