@@ -58,11 +58,17 @@ export class ServiceOrderFormComponent implements OnInit {
 
       if (os) {
         this.form.patchValue(os);
+
+        /** 🔒 BLOQUEIA EDIÇÃO SE CONCLUÍDO OU CANCELADO */
+        if (os.status === 'CONCLUIDO' || os.status === 'CANCELADO') {
+          this.form.disable();
+        }
       }
     }
   }
 
   cancelar(): void {
+    // Apenas volta para a listagem (não altera status aqui)
     this.router.navigate(['/service-order']);
   }
 
@@ -72,7 +78,8 @@ export class ServiceOrderFormComponent implements OnInit {
       return;
     }
 
-    const data = this.form.value as ServiceOrder;
+    const data = this.form.getRawValue() as ServiceOrder;
+    // getRawValue é importante caso o form esteja desabilitado
 
     if (this.isEdit) {
       this.serviceOrderService.atualizar(this.osId, data);

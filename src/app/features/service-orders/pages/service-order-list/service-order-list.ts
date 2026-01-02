@@ -112,4 +112,12 @@ constructor(
 
     return map[priority] ?? 'bg-slate-100';
   }
+
+  cancelar(id: number): void {
+    const confirmar = confirm('Deseja realmente cancelar esta Ordem de Serviço?');
+
+    if (!confirmar) return;
+
+    this.serviceOrderService.cancelar(id);
+  }
 }

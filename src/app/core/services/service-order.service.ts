@@ -43,4 +43,12 @@ export class ServiceOrderService {
       };
     }
   }
+
+  cancelar(id: number): void {
+    const os = this.serviceOrders.find(o => o.id === id);
+
+    if (!os) return;
+
+    os.status = 'CANCELADO';
+  }
 }
