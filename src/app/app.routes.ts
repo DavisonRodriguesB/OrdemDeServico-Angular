@@ -4,7 +4,7 @@ import { MainLayoutComponent } from './core/layout/main-layout/main-layout';
 import { DashboardComponent } from './features/dashboard/pages/dashboard/dashboard';
 import { TeamsComponent } from './features/teams/pages/teams';
 import { ServiceOrderComponent } from './features/service-orders/pages/service-order';
-import { Allocation } from './features/allocation/pages/allocation/allocation';
+import { AllocationComponent } from './features/allocation/pages/allocation/allocation';
 import { Routing } from './features/routing/pages/routing/routing';
 import { Reports } from './features/reports/pages/reports/reports';
 
@@ -41,7 +41,7 @@ export const routes: Routes = [
         ],
       },
 
-      { path: 'allocation', component: Allocation },
+      { path: 'allocation', component: AllocationComponent },
       { path: 'routing', component: Routing },
       { path: 'reports', component: Reports },
 

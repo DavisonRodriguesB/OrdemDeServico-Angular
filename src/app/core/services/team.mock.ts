@@ -30,6 +30,17 @@ export const TEAM_MOCK: Team[] = [
     quantidadeMembros: 6,
     status: 'INATIVA',
   },
+
+  {
+    id: 3,
+    nome: 'Equipe Obras 02',
+    tipoServico: 'Obras',
+    responsavel: 'Raimundo Gomes',
+    descricao: 'Equipe responsável por obras de grande porte',
+    quantidadeMembros: 6,
+    status: 'ATIVA',
+  },
+
   {
     id: 4,
     nome: 'Equipe Comercial 02',
