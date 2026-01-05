@@ -33,6 +33,7 @@ export class ServiceOrderFormComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  /** Inicializa o formulário */
   ngOnInit(): void {
     this.form = this.fb.group({
       os: ['', Validators.required],
@@ -45,6 +46,10 @@ export class ServiceOrderFormComponent implements OnInit {
       prazoDias: [1, [Validators.required, Validators.min(1)]],
 
       bairro: ['', Validators.required],
+      endereco: ['', Validators.required],
+      latitude: [null],
+      longitude: [null],
+      
     });
 
     /** Verifica se é edição */

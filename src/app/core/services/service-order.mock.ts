@@ -6,14 +6,16 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
     os: '2025-001',
     servico: 'Instalação de ponto comercial',
     tipo: 'Comercial',
-    prioridade: 'BAIXA',
+    prioridade: 'MEDIA',
     status: 'ABERTO',
     valor: 4500,
     prazoDias: 5,
     bairro: 'Planalto',
     latitude: -3.0675,
     longitude: -60.0421,
+    endereco: 'Av. Brasil, 1234',
   },
+  
   {
     id: 2,
     os: '2025-002',
@@ -26,7 +28,9 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
     bairro: 'Alvorada',
     latitude: -3.0803,
     longitude: -60.0605,
+    endereco: 'Rua das Flores, 567',
   },
+
   {
     id: 3,
     os: '2025-003',
@@ -39,19 +43,22 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
     bairro: 'Planalto',
     latitude: -3.0668,
     longitude: -60.0430,
+    endereco: 'Av. Central, 890',
   },
+
   {
     id: 4,
     os: '2025-004',
     servico: 'Religação de Urgência',
     tipo: 'Comercial',
     prioridade: 'ALTA',
-    status: 'CONCLUIDO',
+    status: 'ABERTO',
     valor: 4500,
     prazoDias: 7,
     bairro: 'Alvorada',
     latitude: -3.0799,
     longitude: -60.0598,
+    endereco: 'Rua do Sol, 234',
   },
 
   {
@@ -66,7 +73,9 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
   bairro: 'Cidade Nova',
   latitude: -3.0219,
   longitude: -59.9785,
+  endereco: 'Av. Nova, 345',
 },
+
 {
   id: 6,
   os: '2025-006',
@@ -79,5 +88,6 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
   bairro: 'Parque Dez',
   latitude: -3.1033,
   longitude: -60.0256,
+  endereco: 'Rua das Acácias, 678',
 },
 ];

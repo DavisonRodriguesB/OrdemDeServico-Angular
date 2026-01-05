@@ -74,8 +74,10 @@
 
         <div class="text-sm text-gray-500 mt-1">
           Bairro: {{ os.bairro }} |
+          Endereço: {{ os.endereco }} |
           Distância: {{ os.distancia | number:'1.1-2' }} km |
-          Tempo: {{ os.tempoEstimado | number:'1.0-0' }} min
+          Tempo: {{ os.tempoEstimado | number:'1.0-0' }} min 
+          
         </div>
       </li>
     </ol>
@@ -115,7 +117,7 @@
 
     <!-- Base -->
     <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
-      📍 <strong>Base:</strong> {{ base.nome }}
+      <strong>Base:</strong> {{ base.nome }}
     </div>
 
     <!-- Pontos da rota -->
@@ -125,7 +127,7 @@
         class="flex items-center gap-4 p-3 border rounded-lg"
       >
         <div
-          class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-900 text-white text-sm"
+          class="w-6 h-6 flex items-center justify-center rounded-full bg-blue-900 text-white text-sm"
         >
           {{ i + 1 }}
         </div>
@@ -136,13 +138,18 @@
           </div>
 
           <div class="text-sm text-gray-500">
-            {{ os.bairro }}
+            Local: {{ os.bairro }} | {{ os.endereco }}
           </div>
+
         </div>
 
         <div class="text-right text-sm text-gray-600">
           <div>{{ os.distancia | number:'1.1-2' }} km</div>
-          <div>⏱ {{ os.tempoEstimado | number:'1.0-0' }} min</div>
+          <div class="flex items-center justify-end gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            {{ os.tempoEstimado | number:'1.0-0' }} min</div>
         </div>
       </div>
     </div>

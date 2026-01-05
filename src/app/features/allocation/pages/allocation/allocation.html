@@ -37,7 +37,7 @@
           <option [ngValue]="null">Selecione a ordem de serviço</option>
 
           <option *ngFor="let os of serviceOrders" [ngValue]="os.id">
-            {{ os.os }} - {{ os.servico }} ({{ os.tipo }}))
+            {{ os.os }} - {{ os.servico }} ({{ os.tipo }})
           </option>
         </select>
       </div>
