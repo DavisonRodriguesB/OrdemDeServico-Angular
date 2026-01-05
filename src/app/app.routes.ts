@@ -6,7 +6,7 @@ import { TeamsComponent } from './features/teams/pages/teams';
 import { ServiceOrderComponent } from './features/service-orders/pages/service-order';
 import { AllocationComponent } from './features/allocation/pages/allocation/allocation';
 
-import { Reports } from './features/reports/pages/reports/reports';
+import { ReportsComponent } from './features/reports/pages/reports/reports';
 
 import { ServiceOrderListComponent } from './features/service-orders/pages/service-order-list/service-order-list';
 import { ServiceOrderFormComponent } from './features/service-orders/pages/service-order-form/service-order-form';
@@ -44,7 +44,7 @@ export const routes: Routes = [
 
       { path: 'allocation', component: AllocationComponent },
       { path: 'routing', component: RoutingComponent },
-      { path: 'reports', component: Reports },
+      { path: 'reports', component: ReportsComponent },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
