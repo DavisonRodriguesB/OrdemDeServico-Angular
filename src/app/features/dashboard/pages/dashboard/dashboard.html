@@ -1,1 +1,143 @@
-<p>dashboard works!</p>
+<div class="p-8 bg-slate-50 min-h-screen font-sans text-sm">
+  
+  <div class="w-full bg-white rounded-xl shadow-sm p-8 border border-gray-300">
+    
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Dashboard Operacional</h1>
+        <p class="text-gray-500">Gestão de ordens de serviço e performance de equipes.</p>
+      </div>
+
+      
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-10">
+      <div *ngFor="let item of [
+        { label: 'Total de serviços', val: data.kpis.total, color: 'border-gray-400' },
+        { label: 'Abertos', val: data.kpis.abertas, color: 'border-blue-500' },
+        { label: 'Em Execução', val: data.kpis.emExecucao, color: 'border-yellow-500' },
+        { label: 'Concluídos', val: data.kpis.concluidas, color: 'border-green-500' },
+        { label: 'Urgentes', val: data.kpis.urgentes, color: 'border-red-600' }
+      ]" class="bg-white p-5 rounded-lg border border-gray-300 shadow-sm transition-all hover:shadow-md" [ngClass]="item.color + ' border-l-4'">
+        <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">{{item.label}}</p>
+        <p class="text-2xl font-black text-gray-600">{{item.val}}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+      
+      <div class="p-6 rounded-xl border border-gray-300 bg-slate-50/50">
+        <h3 class="text-base font-bold text-gray-700 mb-6 flex items-center gap-2">
+          <span class="w-2 h-5 bg-blue-600 rounded-full"></span>
+          Distribuição por Status
+        </h3>
+        <div class="space-y-6">
+          <div *ngFor="let status of data.statusDistribuicao">
+            <div class="flex justify-between mb-2 items-end">
+              <span class="font-semibold text-gray-600">{{status.label}}</span>
+              <span class="text-xs font-bold text-gray-400">{{status.valor}} serviços</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div [class]="status.cor" class="h-3 rounded-full transition-all duration-1000" [style.width.%]="status.percentual"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-gray-300">
+        <h3 class="text-base font-bold text-gray-700 mb-6 flex items-center gap-2">
+          <span class="w-2 h-5 bg-emerald-500 rounded-full"></span>
+          Alocações do Dia
+        </h3>
+        <table class="w-full">
+          <thead class="text-gray-500 border-b border-gray-300">
+            <tr>
+              <th class="h-10 px-2 text-left font-medium uppercase text-[10px] tracking-widest">Equipes</th>
+              <th class="h-10 px-2 text-right font-medium uppercase text-[10px] tracking-widest">Volume de Serviços</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let equipe of data.equipesAlocacao" class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+              <td class="p-3 font-semibold text-gray-700">{{equipe.nome}}</td>
+              <td class="p-3 text-right font-semibold text-blue-900">{{equipe.quantidade}} atendimentos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-gray-200 pt-8">
+      <div class="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-gray-200">
+        <div class="p-3 bg-white rounded-md border border-gray-300 shadow-sm text-2xl font-black text-gray-800">
+          {{data.resumoEquipes.ativas}}
+        </div>
+        <div>
+          <p class="font-bold text-gray-700">Equipes Ativas</p>
+          <p class="text-xs text-gray-500">Prontas para atendimento</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-4 p-4 rounded-lg bg-green-50 border border-green-100">
+        <div class="p-3 bg-white rounded-md border border-green-300 shadow-sm text-2xl font-black text-green-700">
+          {{data.resumoEquipes.comServico}}
+        </div>
+        <div>
+          <p class="font-bold text-green-800">Em Campo</p>
+          <p class="text-xs text-green-600">Com serviços vinculados</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 p-4 rounded-lg bg-red-50 border border-red-100">
+        <div class="p-3 bg-white rounded-md border border-red-300 shadow-sm text-2xl font-black text-red-700">
+          {{data.resumoEquipes.semServico}}
+        </div>
+        <div>
+          <p class="font-bold text-red-800">Disponíveis</p>
+          <p class="text-xs text-red-600">Aguardando alocação</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
+        <span class="w-2 h-5 bg-red-600 rounded-full"></span>
+        Próximos Serviços por Prioridade (Ação Imediata)
+      </h3>
+      <div class="overflow-x-auto rounded-lg border border-gray-300">
+        <table class="w-full">
+          <thead class="bg-gray-50 text-gray-600 border-b border-gray-300">
+            <tr>
+              <th class="h-12 px-4 text-left font-medium">Código OS</th>
+              <th class="h-12 px-4 text-left font-medium">Prioridade</th>
+              <th class="h-12 px-4 text-left font-medium">Localização / Bairro</th>
+              <th class="h-12 px-4 text-center font-medium">Status Equipes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let os of data.prioritarias" class="border-b border-gray-300 hover:bg-gray-100 transition-colors">
+              <td class="p-4 font-bold text-blue-700">{{ os.id }}</td>
+              <td class="p-4">
+                <span [ngClass]="{
+                  'bg-red-100 text-red-700': os.prioridade === 'URGENTE',
+                  'bg-orange-100 text-orange-700': os.prioridade === 'ALTA'
+                }" class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">
+                  {{ os.prioridade }}
+                </span>
+              </td>
+              <td class="p-4 text-gray-600">{{ os.bairro }}</td>
+              <td class="p-4">
+                <div class="flex justify-center gap-1">
+                  <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <span class="text-[10px] text-gray-400 font-bold uppercase">Equipe a caminho</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    
+
+  </div>
+</div>

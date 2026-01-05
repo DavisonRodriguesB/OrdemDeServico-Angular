@@ -49,6 +49,21 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
   {
     id: 4,
     os: '2025-004',
+    servico: 'Religação Normal',
+    tipo: 'Comercial',
+    prioridade: 'ALTA',
+    status: 'CONCLUIDO',
+    valor: 4500,
+    prazoDias: 7,
+    bairro: 'Centro',
+    latitude: -3.0799,
+    longitude: -60.0598,
+    endereco: 'Avenida Principal, 500',
+  },
+
+  {
+    id: 4,
+    os: '2025-004',
     servico: 'Religação de Urgência',
     tipo: 'Comercial',
     prioridade: 'ALTA',
