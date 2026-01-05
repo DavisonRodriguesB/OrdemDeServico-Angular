@@ -39,7 +39,7 @@ export class DashboardService {
         { id: 'OS 2025-007', prioridade: 'ALTA', bairro: 'Alvorada' },
         { id: 'OS 2025-011', prioridade: 'ALTA', bairro: 'Cidade Nova' }
       ],
-      resumoEquipes: { ativas: 9, comServico: 7, semServico: 1 }
+      resumoEquipes: { ativas: 9, comServico: 7, semServico: 2 }
     };
     return of(data);
   }

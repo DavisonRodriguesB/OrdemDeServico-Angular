@@ -28,14 +28,19 @@
       
       <div class="p-6 rounded-xl border border-gray-300 bg-slate-50/50">
         <h3 class="text-base font-bold text-gray-700 mb-6 flex items-center gap-2">
-          <span class="w-2 h-5 bg-blue-600 rounded-full"></span>
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+            </svg>
+
+          </span>
           Distribuição por Status
         </h3>
         <div class="space-y-6">
           <div *ngFor="let status of data.statusDistribuicao">
             <div class="flex justify-between mb-2 items-end">
               <span class="font-semibold text-gray-600">{{status.label}}</span>
-              <span class="text-xs font-bold text-gray-400">{{status.valor}} serviços</span>
+              <span class="text-xs font-bold text-gray-500">{{status.valor}} serviços</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-3">
               <div [class]="status.cor" class="h-3 rounded-full transition-all duration-1000" [style.width.%]="status.percentual"></div>
@@ -46,7 +51,11 @@
 
       <div class="p-6 rounded-xl border border-gray-300">
         <h3 class="text-base font-bold text-gray-700 mb-6 flex items-center gap-2">
-          <span class="w-2 h-5 bg-emerald-500 rounded-full"></span>
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+            </svg>
+          </span>
           Alocações do Dia
         </h3>
         <table class="w-full">
@@ -59,14 +68,25 @@
           <tbody>
             <tr *ngFor="let equipe of data.equipesAlocacao" class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
               <td class="p-3 font-semibold text-gray-700">{{equipe.nome}}</td>
-              <td class="p-3 text-right font-semibold text-blue-900">{{equipe.quantidade}} atendimentos</td>
+              <td class="p-3 text-right font-semibold text-gray-500">{{equipe.quantidade}} atendimentos</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-gray-200 pt-8">
+    
+    <div class="mt-9">
+      <h3 class="text-base font-bold text-gray-700 flex items-center gap-2">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+          </svg>
+
+        </span>
+        Resumo de Equipes
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
       <div class="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-gray-200">
         <div class="p-3 bg-white rounded-md border border-gray-300 shadow-sm text-2xl font-black text-gray-800">
           {{data.resumoEquipes.ativas}}
@@ -82,8 +102,8 @@
           {{data.resumoEquipes.comServico}}
         </div>
         <div>
-          <p class="font-bold text-green-800">Em Campo</p>
-          <p class="text-xs text-green-600">Com serviços vinculados</p>
+          <p class="font-bold text-green-800">Equipes Em Campo</p>
+          <p class="text-xs text-green-600">Com serviços alocados</p>
         </div>
       </div>
 
@@ -92,15 +112,19 @@
           {{data.resumoEquipes.semServico}}
         </div>
         <div>
-          <p class="font-bold text-red-800">Disponíveis</p>
+          <p class="font-bold text-red-800">Equipes Disponíveis</p>
           <p class="text-xs text-red-600">Aguardando alocação</p>
         </div>
       </div>
     </div>
 
-    <div class="mt-8">
+    <div class="mt-9">
       <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-        <span class="w-2 h-5 bg-red-600 rounded-full"></span>
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
+          </svg>
+        </span>
         Próximos Serviços por Prioridade (Ação Imediata)
       </h3>
       <div class="overflow-x-auto rounded-lg border border-gray-300">
@@ -115,20 +139,20 @@
           </thead>
           <tbody>
             <tr *ngFor="let os of data.prioritarias" class="border-b border-gray-300 hover:bg-gray-100 transition-colors">
-              <td class="p-4 font-bold text-blue-700">{{ os.id }}</td>
+              <td class="p-4 text-blue-700">{{ os.id }}</td>
               <td class="p-4">
                 <span [ngClass]="{
-                  'bg-red-100 text-red-700': os.prioridade === 'URGENTE',
-                  'bg-orange-100 text-orange-700': os.prioridade === 'ALTA'
-                }" class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">
+                  'bg-red-100 text-red-800': os.prioridade === 'URGENTE',
+                  'bg-orange-100 text-orange-800': os.prioridade === 'ALTA'
+                }" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">
                   {{ os.prioridade }}
                 </span>
               </td>
               <td class="p-4 text-gray-600">{{ os.bairro }}</td>
               <td class="p-4">
                 <div class="flex justify-center gap-1">
-                  <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  <span class="text-[10px] text-gray-400 font-bold uppercase">Equipe a caminho</span>
+                  <div class="w-2 h-4 rounded-full bg-green-500 animate-pulse"></div>
+                  <span class="text-[10px] text-gray-500 font-bold uppercase">Equipe a caminho</span>
                 </div>
               </td>
             </tr>
