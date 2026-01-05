@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { ServiceOrder } from '../../../service-orders/models/service-order.model';
 import { Team } from '../../../teams/models/team.model';
 import { AllocationService } from '../../../../core/services/allocation-service';
+import { AllocatedOrdersListComponent } from '../allocation-list/allocated-orders-list';
 
 @Component({
   selector: 'app-allocation',
   standalone: true,
   imports: [
-    CommonModule, // *ngIf, *ngFor
-    FormsModule   // ngModel, ngValue
+    CommonModule,        // *ngIf, *ngFor
+    FormsModule,         // ngModel, ngValue
+    AllocatedOrdersListComponent,
   ],
   templateUrl: './allocation.html',
 })
@@ -25,7 +27,7 @@ export class AllocationComponent {
   /** Seleções */
   selectedServiceOrderId: number | null = null;
   selectedServiceOrder: ServiceOrder | null = null;
-  selectedTeamId: number | null = null;
+  selectedTeamId: number | null = null; // ⚠️ precisa ser null no estado inicial
 
   /** Feedback */
   errorMessage = '';
@@ -36,16 +38,17 @@ export class AllocationComponent {
   }
 
   carregarDados(): void {
+    // 🔹 Garante estado inicial correto ao entrar na tela
+    this.resetSelecoes();
+
     this.serviceOrders = this.allocationService.listarOrdensDisponiveis();
     this.teams = this.allocationService.listarEquipesAtivas();
-
-    this.resetSelecoes();
   }
 
   resetSelecoes(): void {
     this.selectedServiceOrderId = null;
     this.selectedServiceOrder = null;
-    this.selectedTeamId = null;
+    this.selectedTeamId = null; // 🔹 essencial para exibir a PRÉVIA
     this.filteredTeams = [];
   }
 
@@ -61,7 +64,7 @@ export class AllocationComponent {
       return;
     }
 
-    // ⚠️ FILTRO DE EQUIPE POR TIPO (ETAPA 2 – já preparado)
+    //  Regra: filtra equipes pelo tipo da OS
     this.filteredTeams = this.teams.filter(
       team => team.tipoServico === this.selectedServiceOrder!.tipo
     );

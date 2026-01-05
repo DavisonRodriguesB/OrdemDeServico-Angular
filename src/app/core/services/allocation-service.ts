@@ -44,7 +44,7 @@ export class AllocationService {
   }
 
   /**
-   * 🔥 REGRA DE NEGÓCIO
+   *  REGRA DE NEGÓCIO
    * Retorna apenas equipes compatíveis com o tipo da OS
    */
   listarEquipesPorTipoServico(tipoServico: string): Team[] {
@@ -119,5 +119,17 @@ export class AllocationService {
     if (!allocation) return null;
 
     return TEAM_MOCK.find(t => t.id === allocation.teamId) || null;
+  }
+
+
+  /**
+   * Retorna todas as Ordens de Serviço atribuídas a uma equipe
+   */
+  listarOrdensPorEquipe(teamId: number): ServiceOrder[] {
+    const osIds = this.allocations
+      .filter(a => a.teamId === teamId)
+      .map(a => a.serviceOrderId);
+
+    return SERVICE_ORDERS_MOCK.filter(os => osIds.includes(os.id));
   }
 }
