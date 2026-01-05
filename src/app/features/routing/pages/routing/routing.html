@@ -1,1 +1,162 @@
-<p>Página de Roterização</p>
+<div class="p-6">
+
+  <h1 class="text-3xl font-bold text-gray-700 mb-2">
+    Roteirização de Serviços
+  </h1>
+
+  <p class="text-gray-500 mb-6">
+    Selecione uma equipe para gerar a rota com base em prioridade e distância.
+  </p>
+
+  <!-- Seleção de equipe -->
+  <div class="mb-6 max-w-md">
+    <label class="block text-sm font-medium text-gray-700 mb-1">
+      Equipe
+    </label>
+
+    <select
+      [(ngModel)]="selectedTeamId"
+      (ngModelChange)="gerarRota()"
+      class="w-full px-3 py-2 border rounded-lg text-sm"
+    >
+      <option [ngValue]="null">Selecione a equipe</option>
+      <option *ngFor="let team of teams" [ngValue]="team.id">
+        {{ team.nome }} - {{ team.tipoServico }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Base -->
+  <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+    <strong>Origem:</strong>
+    {{ base.nome }}
+  </div>
+
+  <!-- Rota -->
+  <div *ngIf="rotaOrdenada.length; else semRota">
+
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">
+        Ordem de Atendimento
+      </h2>
+
+      <!-- BOTÃO ABRIR MAPA -->
+      <button
+        (click)="mostrarMapa = true"
+        class="px-4 py-2 bg-blue-900 text-white rounded-lg text-sm"
+      >
+        Abrir no mapa
+      </button>
+    </div>
+
+    <ol class="space-y-3">
+      <li
+        *ngFor="let os of rotaOrdenada; let i = index"
+        class="bg-white p-4 border rounded-lg shadow-sm"
+      >
+        <div class="flex justify-between">
+          <div>
+            <strong>{{ i + 1 }}º</strong> - {{ os.os }} | {{ os.servico }}
+          </div>
+
+          <span
+            class="px-2 py-1 rounded text-xs font-semibold"
+            [ngClass]="{
+              'bg-red-100 text-red-700': os.prioridade === 'URGENTE',
+              'bg-orange-100 text-orange-700': os.prioridade === 'ALTA',
+              'bg-yellow-100 text-yellow-700': os.prioridade === 'MEDIA',
+              'bg-green-100 text-green-700': os.prioridade === 'BAIXA'
+            }"
+          >
+            {{ os.prioridade }}
+          </span>
+        </div>
+
+        <div class="text-sm text-gray-500 mt-1">
+          Bairro: {{ os.bairro }} |
+          Distância: {{ os.distancia | number:'1.1-2' }} km |
+          Tempo: {{ os.tempoEstimado | number:'1.0-0' }} min
+        </div>
+      </li>
+    </ol>
+
+  </div>
+
+  <ng-template #semRota>
+    <p class="text-gray-400 mt-8">
+      Nenhuma rota para exibir.
+    </p>
+  </ng-template>
+
+</div>
+
+<!-- ========================= -->
+<!-- MODAL – MAPA SIMULADO -->
+<!-- ========================= -->
+<div
+  *ngIf="mostrarMapa"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">
+        Rota Simulada
+      </h2>
+
+      <button
+        (click)="mostrarMapa = false"
+        class="text-gray-500 hover:text-gray-800"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Base -->
+    <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+      📍 <strong>Base:</strong> {{ base.nome }}
+    </div>
+
+    <!-- Pontos da rota -->
+    <div class="space-y-3">
+      <div
+        *ngFor="let os of rotaOrdenada; let i = index"
+        class="flex items-center gap-4 p-3 border rounded-lg"
+      >
+        <div
+          class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-900 text-white text-sm"
+        >
+          {{ i + 1 }}
+        </div>
+
+        <div class="flex-1">
+          <div class="font-medium">
+            {{ os.servico }}
+          </div>
+
+          <div class="text-sm text-gray-500">
+            {{ os.bairro }}
+          </div>
+        </div>
+
+        <div class="text-right text-sm text-gray-600">
+          <div>{{ os.distancia | number:'1.1-2' }} km</div>
+          <div>⏱ {{ os.tempoEstimado | number:'1.0-0' }} min</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-6 flex justify-end">
+      <button
+        (click)="mostrarMapa = false"
+        class="px-4 py-2 border rounded-lg"
+      >
+        Fechar
+      </button>
+    </div>
+
+  </div>
+</div>
+

@@ -27,7 +27,7 @@ export class AllocationComponent {
   /** Seleções */
   selectedServiceOrderId: number | null = null;
   selectedServiceOrder: ServiceOrder | null = null;
-  selectedTeamId: number | null = null; // ⚠️ precisa ser null no estado inicial
+  selectedTeamId: number | null = null;
 
   /** Feedback */
   errorMessage = '';
@@ -41,14 +41,18 @@ export class AllocationComponent {
     // 🔹 Garante estado inicial correto ao entrar na tela
     this.resetSelecoes();
 
-    this.serviceOrders = this.allocationService.listarOrdensDisponiveis();
+    // ✅ REGRA: apenas OS com status ABERTO podem ser alocadas
+    this.serviceOrders = this.allocationService
+      .listarOrdensDisponiveis()
+      .filter(os => os.status === 'ABERTO');
+
     this.teams = this.allocationService.listarEquipesAtivas();
   }
 
   resetSelecoes(): void {
     this.selectedServiceOrderId = null;
     this.selectedServiceOrder = null;
-    this.selectedTeamId = null; // 🔹 essencial para exibir a PRÉVIA
+    this.selectedTeamId = null;
     this.filteredTeams = [];
   }
 
@@ -64,7 +68,7 @@ export class AllocationComponent {
       return;
     }
 
-    //  Regra: filtra equipes pelo tipo da OS
+    // 🔹 Regra: filtra equipes pelo tipo da OS
     this.filteredTeams = this.teams.filter(
       team => team.tipoServico === this.selectedServiceOrder!.tipo
     );

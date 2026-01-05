@@ -5,7 +5,7 @@ import { DashboardComponent } from './features/dashboard/pages/dashboard/dashboa
 import { TeamsComponent } from './features/teams/pages/teams';
 import { ServiceOrderComponent } from './features/service-orders/pages/service-order';
 import { AllocationComponent } from './features/allocation/pages/allocation/allocation';
-import { Routing } from './features/routing/pages/routing/routing';
+
 import { Reports } from './features/reports/pages/reports/reports';
 
 import { ServiceOrderListComponent } from './features/service-orders/pages/service-order-list/service-order-list';
@@ -13,6 +13,7 @@ import { ServiceOrderFormComponent } from './features/service-orders/pages/servi
 import { ServiceOrderExecutionComponent } from './features/service-orders/pages/service-order-execution/service-order-execution';
 import { TeamFormComponent } from './features/teams/pages/team-form/team-form';
 import { TeamListComponent } from './features/teams/pages/team-list/team-list';
+import { RoutingComponent } from './features/routing/pages/routing/routing';
 
 export const routes: Routes = [
   {
@@ -42,7 +43,7 @@ export const routes: Routes = [
       },
 
       { path: 'allocation', component: AllocationComponent },
-      { path: 'routing', component: Routing },
+      { path: 'routing', component: RoutingComponent },
       { path: 'reports', component: Reports },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
