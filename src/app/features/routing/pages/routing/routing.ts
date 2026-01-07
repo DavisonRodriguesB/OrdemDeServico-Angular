@@ -60,7 +60,7 @@ export class RoutingComponent {
         return {
           ...os,
           distancia,
-          tempoEstimado: distancia * 4, // 🚗 4 min por km (mock)
+          tempoEstimado: distancia * 4, 
         };
       })
       .sort((a, b) => {

@@ -2,10 +2,13 @@
   <div class="container mx-auto">
     <div class="max-w-md mx-auto my-10">
 
-      <!-- Card -->
       <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
 
-        <!-- Título -->
+        <div class="flex justify-center mb-6">
+          <img src="assets/imagens/logo.png" 
+          alt="Logo" class="h-25 w-auto object-contain">
+        </div>
+
         <div class="text-center mb-6">
           <h1 class="text-3xl font-semibold text-gray-700">
             Acesso ao Sistema
@@ -15,14 +18,12 @@
           </p>
         </div>
 
-        <!-- Form -->
         <form
           [formGroup]="form"
           (ngSubmit)="entrar()"
           class="space-y-6"
         >
 
-          <!-- Email -->
           <div>
             <label class="block mb-1 text-sm text-gray-600">
               E-mail
@@ -47,7 +48,6 @@
             </p>
           </div>
 
-          <!-- Senha -->
           <div>
             <label class="block mb-1 text-sm text-gray-600">
               Senha
@@ -72,7 +72,6 @@
             </p>
           </div>
 
-          <!-- Erro -->
           <p
             *ngIf="error"
             class="text-sm text-red-600 text-center"
@@ -80,7 +79,6 @@
             {{ error }}
           </p>
 
-          <!-- Botão -->
           <button
             type="submit"
             class="w-full py-3
@@ -92,7 +90,6 @@
             Entrar
           </button>
 
-          <!-- Info -->
           <p class="text-sm text-center text-gray-400 pt-2">
             Acesso restrito a usuários autorizados
           </p>
@@ -103,7 +100,6 @@
   </div>
 </div>
 
-<!-- Footer -->
 <div class="fixed bottom-5 w-full text-center text-gray-400 text-sm">
   Sistema de Ordem de Serviço
 </div>

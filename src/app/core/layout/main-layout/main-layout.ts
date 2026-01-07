@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header';
-import { Sidebar } from '../sidebar/sidebar';
+import { SidebarComponent } from '../sidebar/sidebar';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { Sidebar } from '../sidebar/sidebar';
     CommonModule,
     RouterOutlet,
     HeaderComponent,
-    Sidebar
+    SidebarComponent
   ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.css']

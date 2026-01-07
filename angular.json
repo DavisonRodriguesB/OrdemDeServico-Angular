@@ -23,6 +23,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/shared/imagens",
+                "output": "/assets/imagens"
               }
             ],
             "styles": [

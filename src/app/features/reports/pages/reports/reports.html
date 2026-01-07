@@ -1,85 +1,118 @@
-<div class="bg-slate-50 min-h-screen font-sans text-sm print:bg-white print:p-0">
+<div class="p-6 bg-slate-50 min-h-screen font-sans text-slate-900 print:bg-white print:p-0">
   
-  <div class="w-full bg-white rounded-xl shadow-sm p-8 border border-gray-300">
+  <div class="max-w-7xl mx-auto space-y-6">
     
-    <div class="flex justify-between items-start mb-8 border-b border-gray-100 pb-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
       <div>
-        <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Relatórios de Produtividade</h1>
-        <p class="text-gray-500 text-base">Análise consolidada de performance, faturamento e execução.</p>
+        <h1 class="text-xl font-bold text-slate-800">Relatórios de Produtividade</h1>
+        <p class="text-sm text-slate-500 font-normal">Análise consolidada de performance e faturamento.</p>
       </div>
 
-      <div class="flex gap-2 print:hidden">
-        <button (click)="printReport()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2 font-semibold transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+      <div class="flex gap-3 print:hidden">
+        <button (click)="printReport()" class="px-4 py-2 border border-gray-200 text-slate-600 rounded-xl hover:bg-gray-50 flex items-center gap-2 font-medium transition-all text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-slate-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.89l-4.72-4.72m0 0l4.72-4.72M2 9.17h18a2.25 2.25 0 012.25 2.25v6.75a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25v-4.5" />
           </svg>
           Imprimir
         </button>
-        <button (click)="exportReport('csv')" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 flex items-center gap-2 font-semibold transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-          </svg>
-          Exportar CSV
+        <button (click)="exportReport('csv')" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 flex items-center gap-2 font-medium transition-all text-sm shadow-sm">
+          Baixar Relatório
         </button>
       </div>
     </div>
 
-    <div class="flex gap-4 mb-10 print:hidden">
-        <div class="flex-1 max-w-xs">
-            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Período</label>
-            <select [(ngModel)]="periodoSelecionado" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                <option>Últimos 7 dias</option>
-                <option>Últimos 30 dias</option>
-                <option>Este Mês</option>
-                <option>Personalizado</option>
-            </select>
+    <div class="flex gap-4 print:hidden">
+      <div class="w-full max-w-xs bg-white p-1 rounded-xl shadow-sm border border-gray-100 flex items-center">
+        <label class="px-3 text-xs font-bold text-slate-500 uppercase border-e border-gray-100">Período</label>
+        <select class="flex-1 bg-transparent px-3 py-1.5 text-sm font-medium outline-none cursor-pointer">
+          <option>Últimos 30 dias</option>
+          <option>Este Mês</option>
+          <option>Dia Atual</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 bg-white border border-gray-100 rounded-2xl shadow-sm" *ngFor="let metric of [
+        {label: 'Total Faturado', val: reportData.metrics.totalFaturado, color: 'text-emerald-600', isCurrency: true},
+        {label: 'Ticket Médio', val: reportData.metrics.ticketMedio, color: 'text-blue-600', isCurrency: true},
+        {label: 'Tempo Médio', val: reportData.metrics.tempoMedioGlobal, color: 'text-slate-700', isCurrency: false},
+        {label: 'Taxa Conclusão', val: reportData.metrics.taxaSucesso + '%', color: 'text-orange-600', isCurrency: false}
+      ]">
+        <p class="text-xs font-bold text-slate-400 uppercase mb-2 tracking-wide">{{metric.label}}</p>
+        <p class="text-2xl font-bold {{metric.color}}">
+          {{ metric.isCurrency ? (metric.val | currency:'BRL') : metric.val }}
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h3 class="text-base font-bold text-slate-800 uppercase tracking-tight">Acompanhamento de Metas por Equipe</h3>
+          <p class="text-sm text-slate-500 font-normal">Comparativo entre faturamento real acumulado e objetivo mensal</p>
         </div>
+        <div class="flex items-center gap-4 text-xs font-semibold">
+          <div class="flex items-center gap-2"><span class="w-3 h-3 bg-emerald-500 rounded-full"></span> Meta Batida</div>
+          <div class="flex items-center gap-2"><span class="w-3 h-3 bg-blue-500 rounded-full"></span> Em Evolução</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+        <div *ngFor="let item of reportData.produtividadeEquipes" class="group">
+          <div class="flex justify-between items-end mb-2">
+            <div class="space-y-1">
+              <p class="text-sm font-bold text-slate-800">{{item.equipe}}</p>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Meta</span>
+                <span class="text-xs font-semibold text-slate-600">{{item.metaFaturamento | currency:'BRL'}}</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-bold text-slate-900">{{item.faturamento | currency:'BRL'}}</p>
+              <span class="text-xs font-bold" [ngClass]="(item.faturamento / item.metaFaturamento) >= 1 ? 'text-emerald-500' : 'text-blue-600'">
+                {{ (item.faturamento / item.metaFaturamento) | percent:'1.1-1' }}
+              </span>
+            </div>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden shadow-inner">
+            <div 
+              class="h-full rounded-full transition-all duration-700 ease-out shadow-sm"
+              [ngClass]="(item.faturamento / item.metaFaturamento) >= 1 ? 'bg-emerald-500' : 'bg-blue-600'"
+              [style.width.%]="(item.faturamento / item.metaFaturamento) * 100 > 100 ? 100 : (item.faturamento / item.metaFaturamento) * 100">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-      <div class="p-6 bg-slate-50 border border-gray-300 rounded-lg">
-        <p class="text-[10px] text-gray-600 font-black uppercase tracking-widest mb-1">Total Faturado</p>
-        <p class="text-1xl font-black text-emerald-600">{{ reportData.metrics.totalFaturado | currency:'BRL' }}</p>
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-50 bg-slate-50/30">
+        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-tight">Produtividade Detalhada</h3>
       </div>
-      <div class="p-6 bg-slate-50 border border-gray-300 rounded-lg">
-        <p class="text-[10px] text-gray-600 font-black uppercase tracking-widest mb-1">Ticket Médio por OS</p>
-        <p class="text-1xl font-black text-blue-600">{{ reportData.metrics.ticketMedio | currency:'BRL' }}</p>
-      </div>
-      <div class="p-6 bg-slate-50 border border-gray-300 rounded-lg">
-        <p class="text-[10px] text-gray-600 font-black uppercase tracking-widest mb-1">Tempo Médio Global</p>
-        <p class="text-1xl font-black text-gray-700">{{ reportData.metrics.tempoMedioGlobal }}</p>
-      </div>
-      <div class="p-6 bg-slate-50 border border-gray-300 rounded-lg">
-        <p class="text-[10px] text-gray-600 font-black uppercase tracking-widest mb-1">Taxa de Conclusão</p>
-        <p class="text-1xl font-black text-orange-600">{{ reportData.metrics.taxaSucesso }}%</p>
-      </div>
-    </div>
-
-    <div class="mb-10">
-      <h3 class="text-base font-bold text-gray-700 mb-4 uppercase tracking-tight">Produtividade Detalhada por Equipe</h3>
-      <div class="overflow-x-auto rounded-lg border border-gray-300 shadow-sm">
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50 text-gray-600 border-b border-gray-300">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-slate-50 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
             <tr>
-              <th class="h-12 px-6 text-left font-medium">Equipe</th>
-              <th class="h-12 px-6 text-center font-medium">OS Concluídas</th>
-              <th class="h-12 px-6 text-center font-medium">Tempo Médio</th>
-              <th class="h-12 px-6 text-right font-medium">Faturamento</th>
-              <th class="h-12 px-6 text-center font-medium">Performance (%)</th>
+              <th class="px-6 py-4">Equipe</th>
+              <th class="px-6 py-4 text-center">Serviços</th>
+              <th class="px-6 py-4 text-center">Tempo Médio</th>
+              <th class="px-6 py-4 text-right">Faturamento Real</th>
+              <th class="px-6 py-4 text-center">Eficiência Técnica</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let item of reportData.produtividadeEquipes" class="border-b border-gray-200 hover:bg-slate-50 transition-colors">
-              <td class="p-4 px-6 font-bold text-gray-800">{{ item.equipe }}</td>
-              <td class="p-4 px-6 text-center text-gray-600">{{ item.concluidas }}</td>
-              <td class="p-4 px-6 text-center font-mono text-gray-500">{{ item.tempoMedio }}</td>
-              <td class="p-4 px-6 text-right font-bold text-emerald-600">{{ item.faturamento | currency:'BRL' }}</td>
-              <td class="p-4 px-6">
+          <tbody class="divide-y divide-gray-50">
+            <tr *ngFor="let item of reportData.produtividadeEquipes" class="hover:bg-slate-50/50 transition-colors">
+              <td class="px-6 py-4 font-semibold text-slate-700">{{item.equipe}}</td>
+              <td class="px-6 py-4 text-center text-slate-600">{{item.concluidas}}</td>
+              <td class="px-6 py-4 text-center font-mono text-slate-500 text-xs">{{item.tempoMedio}}</td>
+              <td class="px-6 py-4 text-right font-bold text-slate-800">{{item.faturamento | currency:'BRL'}}</td>
+              <td class="px-6 py-4">
                 <div class="flex items-center justify-center gap-3">
-                  <div class="w-24 bg-gray-200 rounded-full h-2">
-                    <div class="bg-blue-600 h-2 rounded-full" [style.width.%]="item.performance"></div>
+                  <div class="w-20 bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-blue-500 h-full rounded-full" [style.width.%]="item.performance"></div>
                   </div>
-                  <span class="text-xs font-bold text-gray-700">{{ item.performance }}%</span>
+                  <span class="text-xs font-bold text-slate-700 w-8">{{item.performance}}%</span>
                 </div>
               </td>
             </tr>
@@ -88,45 +121,17 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="p-6 border border-gray-300 rounded-xl">
-            <h3 class="text-base font-bold text-gray-700 mb-4">Volume e Receita por Tipo de Serviço</h3>
-            <div class="space-y-4">
-                <div *ngFor="let tipo of reportData.servicosPorTipo" class="flex items-center justify-between p-4 bg-slate-50 border border-gray-100 rounded-lg">
-                    <div>
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-tighter">{{ tipo.tipo }}</span>
-                        <p class="text-sm font-bold text-gray-800">{{ tipo.quantidade }} Ordens</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xs text-gray-600 uppercase font-bold">Total Faturado</p>
-                        <p class="text-md font-black text-gray-700">{{ tipo.faturado | currency:'BRL' }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="p-6 border border-gray-300 rounded-xl bg-slate-900 text-white">
-            <h3 class="text-base font-bold mb-6">Insights da Operação</h3>
-            <ul class="space-y-4">
-                <li class="flex gap-3 items-start">
-                    <span class="text-emerald-400 font-bold">✓</span>
-                    <p class="text-sm text-slate-300">A <strong>Equipe Comercial 01</strong> superou a meta de produtividade em 8% este mês.</p>
-                </li>
-                <li class="flex gap-3 items-start">
-                    <span class="text-orange-400 font-bold">!</span>
-                    <p class="text-sm text-slate-300">Serviços de <strong>Obras</strong> representam 60% do faturamento, mas apenas 15% do volume de OS.</p>
-                </li>
-                <li class="flex gap-3 items-start">
-                    <span class="text-blue-400 font-bold">ℹ</span>
-                    <p class="text-sm text-slate-300">Tempo médio de execução reduziu 12 minutos após nova lógica de roteirização.</p>
-                </li>
-            </ul>
-            <div class="mt-8 pt-6 border-t border-slate-700">
-                <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Recomendação</p>
-                <p class="text-sm text-slate-400 mt-2">"Considerar alocação de mais recursos para Manutenção para reduzir o tempo médio global."</p>
-            </div>
-        </div>
-    </div>
-
-  </div>
-</div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10">
+      <h3 class="text-sm font-bold text-slate-800 mb-6 uppercase tracking-tight">Receita Acumulada por Categoria</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div *ngFor="let tipo of reportData.servicosPorTipo" class="flex items-center gap-4 p-4 rounded-xl border border-slate-50 bg-slate-50/50 hover:bg-white hover:border-blue-100 transition-all group">
+          <div class="w-10 h-10 rounded-lg bg-gray-500 flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">{{tipo.tipo}}</p>
+            <p class="text-base font-semibold text-slate-800">{{tipo.faturado | currency:'BRL'}}</p>
+            <p class="text-xs text-slate-500">{{tipo.quantidade}} ordens executadas</p>
+          </div>
