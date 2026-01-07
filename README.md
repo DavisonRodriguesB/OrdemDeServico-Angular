@@ -1,23 +1,41 @@
-Sistema de Ordem de Serviço e Roteirização (Em desenvolvimento)
+Sistema de Ordem de Serviço e Roteirização
 
-(Angular • Standalone • Frontend)
+(Em desenvolvimento - fins educacionais e profissionais)
 
-🔹  Objetivo do Projeto
+Angular • Standalone • Frontend
 
-Este projeto tem como objetivo demonstrar, de forma prática, a construção de um Sistema de Gestão de Ordens de Serviço (OS) voltado para planejamento, execução e acompanhamento de serviços em campo.
+🔹 Objetivo do Projeto
 
-O foco principal é arquitetura frontend, organização de código, roteamento, componentização e lógica de negócio, utilizando Angular moderno (Standalone) e Tailwind CSS, com dados mockados (sem backend).
+Este projeto tem como objetivo demonstrar, de forma prática e profissional, a construção de um Sistema de Gestão de Ordens de Serviço (OS) voltado para o planejamento, execução e acompanhamento de serviços em campo, incluindo roteirização inteligente por equipes.
 
-🔹  Tecnologias Utilizadas
+O foco principal está em:
+
+Arquitetura frontend moderna
+
+Organização e escalabilidade de código
+
+Boas práticas com Angular Standalone
+
+Regras de negócio bem definidas
+
+Simulação realista de cenários operacionais
+
+Todo o sistema é desenvolvido sem backend, utilizando dados mockados, com ênfase total em lógica de negócio e experiência frontend.
+
+🔹 Tecnologias Utilizadas
 
 - Angular (Standalone Components)
+
 - Angular Router
+
 - TypeScript
+
 - Tailwind CSS
+
 - Git & GitHub
 
-⚠️ Este projeto não utiliza backend. Todos os dados são simulados (mock).
-
+⚠️ Observação:
+Este projeto não utiliza backend. Todos os dados são simulados via mocks, com serviços responsáveis pela lógica de negócio.
 🔹 Arquitetura do Projeto
 
 O projeto segue uma arquitetura organizada e escalável:
@@ -36,27 +54,73 @@ src/app/
 
 └── app.component.*
 
-🔹 Padrão adotado
+🔹 Padrões Adotados
 
-Angular Standalone
-Lazy loading por componente (loadComponent)
-Rotas centralizadas em app.routes.ts
-Separação clara de responsabilidades
+- Angular Standalone Components
 
+- Lazy Loading por componente (loadComponent)
 
-🔹  Regras de Negócio
+- Rotas centralizadas em app.routes.ts
 
-- Equipes só recebem serviços compatíveis com seu tipo
-- Serviços concluídos não podem ser editados
-- Execução só ocorre após atribuição
+- Separação clara de responsabilidades
+
+- Componentização focada em reutilização
+
+- Serviços responsáveis por regras de negócio
+
+🔹 Regras de Negócio Implementadas
+
+- Equipes só recebem ordens compatíveis com seu tipo
+
+- Ordens concluídas não podem ser editadas
+
+- Execução do serviço só ocorre após atribuição
+
 - Retorno de campo obrigatório para conclusão
 
+- Roteirização inteligente:
 
+- O ponto inicial é a base operacional
+
+- Após cada atendimento, a próxima OS considera o último ponto atendido
+
+- Prioridade do serviço influencia a ordem de execução
+
+- Distância calculada de forma sequencial (rota realista)
+
+🔹 Funcionalidades em Destaque
+
+- Login Auth e Guard
+
+- Gestão de equipes
+
+- Gestão de ordens de serviço
+
+- Atribuição de ordens por equipe
+
+- Roteirização baseada em prioridade e distância
+
+- Cálculo de distância e tempo estimado
+
+- Interface moderna com Tailwind CSS
 
 🎓 Objetivo Profissional
 
-Este projeto foi desenvolvido com foco em: Portfólio pessoal, Processos seletivos, Demonstração de domínio em Angular moderno, Boas práticas de arquitetura frontend
+Este projeto foi desenvolvido com foco em:
 
-👤 Autor: Davison Rodrigues
+📌 Portfólio pessoal
+
+📌 Processos seletivos
+
+📌 Demonstração de domínio em Angular moderno
+
+📌 Aplicação prática de regras de negócio
+
+📌 Boas práticas de arquitetura frontend
+
+
+👤 Autor
+
+Davison Rodrigues Bentes
 
 Projeto em desenvolvimento para fins educacionais e profissionais.
