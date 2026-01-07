@@ -1,22 +1,33 @@
-<div class="p-6">
-  <div class="flex justify-between items-center">
-    <div class="min-h-auto flex justify-center my-5">
-      <div class="w-full max-w-lg">
-        <h1 class="text-3xl font-bold text-gray-700">Ordem de Serviço</h1>
-        <p class="text-gray-500">
-          Gerencie os serviços e acompanhe sua execução
+<div class="p-4 md:p-8 bg-slate-100 min-h-screen font-sans">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 mr-8 ml-9">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-800 tracking-tight">
+          Ordem de Serviço
+        </h1>
+        <p class="text-gray-500 text-sm mt-1">
+          Gerencie os serviços, alocações e acompanhe a execução em tempo real.
         </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a
+          routerLink="./new"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-800 text-white rounded-md font-bold text-sm 
+                 hover:bg-blue-700 transition-all shadow-sm shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Nova Ordem de Serviço
+        </a>
       </div>
     </div>
 
-    <a
-      routerLink="./new"
-      class="px-4 py-2 h-9 bg-blue-900 text-white rounded-lg hover:bg-blue-800 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center gap-2"
-    >
-      <span class="material-icons text-sm">Criar Ordem de Serviço</span>
-    </a>
-  </div>
+    <div class="relative">
+      <router-outlet></router-outlet>
+    </div>
 
-  <router-outlet></router-outlet>
-  
+  </div>
 </div>

@@ -1,136 +1,122 @@
-<div class="p-6">
-
-  <!-- Header -->
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-700">Alocação de Serviços</h1>
-    <p class="text-gray-500">
-      Associe uma ordem de serviço a uma equipe disponível
-    </p>
-  </div>
-
-  <!-- Card -->
-  <div class="bg-white rounded-xl shadow-sm p-8 border border-gray-200 space-y-6">
-
-    <!-- Mensagens -->
-    <div *ngIf="errorMessage" class="bg-red-100 text-red-700 px-4 py-2 rounded">
-      {{ errorMessage }}
+<div class="p-4 md:p-8 bg-slate-100 min-h-screen font-sans">
+  
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+    
+    <div class="p-6 border-b border-gray-100 bg-white">
+      <h2 class="text-2xl font-bold text-gray-800">
+        Alocação de Serviços
+      </h2>
+      <p class="text-gray-500 text-sm">
+        Associe uma ordem de serviço a uma equipe disponível para execução.
+      </p>
     </div>
 
-    <div *ngIf="successMessage" class="bg-green-100 text-green-700 px-4 py-2 rounded">
-      {{ successMessage }}
-    </div>
+    <div class="p-8 space-y-8">
+      
+      <div *ngIf="errorMessage" class="flex items-center gap-3 bg-red-50 border border-red-100 text-red-700 px-4 py-3 rounded-md text-sm animate-pulse">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+        </svg>
+        {{ errorMessage }}
+      </div>
 
-    <!-- Linha 1: OS + Equipe -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div *ngIf="successMessage" class="flex items-center gap-3 bg-emerald-50 border border-emerald-100 text-emerald-700 px-4 py-3 rounded-md text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        {{ successMessage }}
+      </div>
 
-      <!-- Ordem de Serviço -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Ordem de Serviço
-        </label>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <select
-          [(ngModel)]="selectedServiceOrderId"
-          (ngModelChange)="onServiceOrderChange()"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+            Ordem de Serviço
+          </label>
+          <select
+            [(ngModel)]="selectedServiceOrderId"
+            (ngModelChange)="onServiceOrderChange()"
+            class="w-full h-11 px-4 border border-gray-300 rounded-md text-sm bg-white cursor-pointer
+                   focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          >
+            <option [ngValue]="null">Selecione a ordem de serviço</option>
+            <option *ngFor="let os of serviceOrders" [ngValue]="os.id">
+              {{ os.os }} - {{ os.servico }} ({{ os.tipo }})
+
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+            Equipe Disponível
+          </label>
+          <select
+            [(ngModel)]="selectedTeamId"
+            [disabled]="!filteredTeams.length"
+            class="w-full h-11 px-4 border border-gray-300 rounded-md text-sm bg-white cursor-pointer
+                   focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all
+                   disabled:bg-slate-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+          >
+            <option [ngValue]="null">
+              {{ filteredTeams.length ? 'Selecione a equipe' : 'Aguardando seleção de O.S...' }}
+            </option>
+            <option *ngFor="let team of filteredTeams" [ngValue]="team.id">
+              {{ team.nome }} ({{ team.tipoServico }})
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div *ngIf="selectedServiceOrder" class="bg-slate-50 rounded-xl p-6 border border-slate-100">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipo de Serviço</label>
+            <p class="text-sm font-semibold text-gray-700">{{ selectedServiceOrder.tipo }}</p>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Localização (Bairro)</label>
+            <p class="text-sm font-semibold text-gray-700">{{ selectedServiceOrder.bairro }}</p>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Prioridade</label>
+            <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold bg-white border border-gray-200 text-gray-600">
+              {{ selectedServiceOrder.prioridade }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+        <button
+          (click)="cancelar()"
+          class="px-6 py-2.5 border border-gray-300 text-gray-600 rounded-md font-semibold text-sm
+                 hover:bg-gray-50 transition-colors"
         >
-          <option [ngValue]="null">Selecione a ordem de serviço</option>
+          Cancelar
+        </button>
 
-          <option *ngFor="let os of serviceOrders" [ngValue]="os.id">
-            {{ os.os }} - {{ os.servico }} ({{ os.tipo }})
-          </option>
-        </select>
-      </div>
-
-      <!-- Equipe -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Equipe
-        </label>
-
-        <select
-          [(ngModel)]="selectedTeamId"
-          [disabled]="!filteredTeams.length"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm disabled:bg-gray-100"
+        <button
+          (click)="alocar()"
+          [disabled]="!selectedServiceOrderId || !selectedTeamId"
+          class="px-8 py-2.5 bg-blue-800 text-white rounded-md font-semibold text-sm
+                 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed 
+                 transition-all shadow-sm flex items-center gap-2"
         >
-          <option [ngValue]="null">
-            {{ filteredTeams.length ? 'Selecione a equipe' : 'Selecione uma O.S primeiro' }}
-          </option>
-
-          <option *ngFor="let team of filteredTeams" [ngValue]="team.id">
-            {{ team.nome }} - {{ team.tipoServico }}
-          </option>
-        </select>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+          </svg>
+          Efetivar Alocação
+        </button>
       </div>
-
-    </div>
-
-    <!-- Linha 2: Detalhes da OS -->
-    <div *ngIf="selectedServiceOrder" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Tipo de Serviço
-        </label>
-        <input
-          type="text"
-          disabled
-          [value]="selectedServiceOrder.tipo"
-          class="w-full px-3 py-2 bg-gray-100 border rounded-lg text-sm"
-        />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Bairro
-        </label>
-        <input
-          type="text"
-          disabled
-          [value]="selectedServiceOrder.bairro"
-          class="w-full px-3 py-2 bg-gray-100 border rounded-lg text-sm"
-        />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Prioridade
-        </label>
-        <input
-          type="text"
-          disabled
-          [value]="selectedServiceOrder.prioridade"
-          class="w-full px-3 py-2 bg-gray-100 border rounded-lg text-sm"
-        />
-      </div>
-
-    </div>
-
-    <!-- Ações -->
-    <div class="flex justify-end gap-3 mt-8">
-      <button
-        (click)="cancelar()"
-        class="px-4 py-2 border rounded-lg"
-      >
-        Cancelar
-      </button>
-
-      <button
-        (click)="alocar()"
-        [disabled]="!selectedServiceOrderId || !selectedTeamId"
-        class="px-4 py-2 bg-blue-900 hover:bg-blue-800 text-white rounded-lg disabled:bg-gray-400"
-      >
-        Alocar Serviço
-      </button>
     </div>
 
   </div>
 
-  <!-- Lista de Ordens Alocadas / Prévia Geral -->
-  <div class="mt-6">
-    <app-allocated-orders-list
-      [teamId]="selectedTeamId">
-    </app-allocated-orders-list>
+  <div class="mt-8 max-w-5xl mx-auto">
+    <div class="flex items-center gap-2 mb-4 px-2">
+    </div>
+    <app-allocated-orders-list [teamId]="selectedTeamId"></app-allocated-orders-list>
   </div>
 
 </div>

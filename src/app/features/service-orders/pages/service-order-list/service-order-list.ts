@@ -104,10 +104,10 @@ constructor(
 
   getPriorityClass(priority: string): string {
     const map: Record<string, string> = {
-      BAIXA: 'bg-slate-200 text-slate-700',
-      MEDIA: 'bg-indigo-100 text-indigo-700',
-      ALTA: 'bg-orange-100 text-orange-800',
-      URGENTE: 'bg-red-100 text-red-800',
+      BAIXA: 'bg-slate-200 text-slate-700 border-indigo-100',
+      MEDIA: 'bg-indigo-100 text-indigo-700 border-indigo-100',
+      ALTA: 'bg-orange-100 text-orange-800 border-orange-100',
+      URGENTE: 'bg-red-100 text-red-800 border-red-100',
     };
 
     return map[priority] ?? 'bg-slate-100';

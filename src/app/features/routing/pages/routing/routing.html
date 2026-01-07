@@ -1,175 +1,127 @@
-<div class="p-6">
-
-  <!-- Header -->
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-700">
-      Roteirização de Serviços
-    </h1>
-
-    <p class="text-gray-500">
-      Selecione uma equipe para gerar a rota com base em prioridade e distância.
-    </p>
-  </div>
-
-  <!-- Card principal -->
-  <div class="bg-white rounded-xl shadow-sm p-8 border border-gray-200 space-y-6">
-
-    <!-- Seleção de equipe -->
-    <div class="max-w-md">
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Equipe
-      </label>
-
-      <select
-        [(ngModel)]="selectedTeamId"
-        (ngModelChange)="gerarRota()"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
-      >
-        <option [ngValue]="null">Selecione a equipe</option>
-        <option *ngFor="let team of teams" [ngValue]="team.id">
-          {{ team.nome }} - {{ team.tipoServico }}
-        </option>
-      </select>
-    </div>
-
-    <!-- Base -->
-    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-      <strong>Origem:</strong>
-      {{ base.nome }}
-    </div>
-
-    <!-- Rota -->
-    <div *ngIf="rotaOrdenada.length; else semRota">
-
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-semibold">
-          Ordem de Atendimento
-        </h2>
-
-        <button
-          (click)="mostrarMapa = true"
-          class="px-4 py-2 bg-blue-900 hover:bg-blue-800 text-white rounded-lg text-sm"
-        >
-          Abrir no mapa
-        </button>
-      </div>
-
-      <ol class="space-y-3 mt-4">
-        <li
-          *ngFor="let os of rotaOrdenada; let i = index"
-          class="bg-gray-50 p-4 border border-gray-200 rounded-lg"
-        >
-          <div class="flex justify-between items-center">
-            <div>
-              <strong>{{ i + 1 }}º</strong> - {{ os.os }} | {{ os.servico }}
-            </div>
-
-            <span
-              class="px-2 py-1 rounded text-xs font-semibold"
-              [ngClass]="{
-                'bg-red-100 text-red-700': os.prioridade === 'URGENTE',
-                'bg-orange-100 text-orange-700': os.prioridade === 'ALTA',
-                'bg-yellow-100 text-yellow-700': os.prioridade === 'MEDIA',
-                'bg-green-100 text-green-700': os.prioridade === 'BAIXA'
-              }"
-            >
-              {{ os.prioridade }}
-            </span>
-          </div>
-
-          <div class="text-sm text-gray-500 mt-2">
-            Bairro: {{ os.bairro }} |
-            Endereço: {{ os.endereco }} |
-            Distância: {{ os.distancia | number:'1.1-2' }} km |
-            Tempo: {{ os.tempoEstimado | number:'1.0-0' }} min
-          </div>
-        </li>
-      </ol>
-
-    </div>
-
-    <ng-template #semRota>
-      <p class="text-gray-400">
-        Nenhuma rota para exibir.
+<div class="p-4 md:p-8 bg-slate-100 min-h-screen font-sans">
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+    
+    <div class="p-6 border-b border-gray-100 bg-white">
+      <h2 class="text-2xl font-bold text-gray-800">Roteirização de Serviços</h2>
+      <p class="text-gray-500 text-sm">
+        Gere rotas inteligentes com base na prioridade das O.S. e distância geográfica.
       </p>
-    </ng-template>
-
-  </div>
-</div>
-
-<!-- ========================= -->
-<!-- MODAL – MAPA SIMULADO -->
-<!-- ========================= -->
-<div
-  *ngIf="mostrarMapa"
-  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
->
-  <div class="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6">
-
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold">
-        Rota Simulada
-      </h2>
-
-      <button
-        (click)="mostrarMapa = false"
-        class="text-gray-500 hover:text-gray-800"
-      >
-        ✕
-      </button>
     </div>
 
-    <!-- Base -->
-    <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
-      <strong>Base:</strong> {{ base.nome }}
-    </div>
-
-    <!-- Pontos da rota -->
-    <div class="space-y-3">
-      <div
-        *ngFor="let os of rotaOrdenada; let i = index"
-        class="flex items-center gap-4 p-3 border border-gray-200 rounded-lg"
-      >
-        <div
-          class="w-6 h-6 flex items-center justify-center rounded-full bg-blue-900 text-white text-sm"
-        >
-          {{ i + 1 }}
+    <div class="p-8 space-y-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+        <div class="max-w-md">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+            Equipe Responsável
+          </label>
+          <select
+            [(ngModel)]="selectedTeamId"
+            (ngModelChange)="gerarRota()"
+            class="w-full h-11 px-4 border border-gray-300 rounded-md text-sm bg-white cursor-pointer
+                   focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          >
+            <option [ngValue]="null">Selecione uma equipe para roteirizar</option>
+            <option *ngFor="let team of teams" [ngValue]="team.id">
+              {{ team.nome }} — {{ team.tipoServico }}
+            </option>
+          </select>
         </div>
 
-        <div class="flex-1">
-          <div class="font-medium">
-            {{ os.servico }}
-          </div>
-
-          <div class="text-sm text-gray-500">
-            Local: {{ os.bairro }} | {{ os.endereco }}
-          </div>
-        </div>
-
-        <div class="text-right text-sm text-gray-600">
-          <div>{{ os.distancia | number:'1.1-2' }} km</div>
-          <div class="flex items-center justify-end gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                 stroke-width="1.5" stroke="currentColor" class="size-4">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        <div class="flex items-center gap-3 p-1 bg-blue-50 border border-blue-100 rounded-lg">
+          <div class="bg-blue-600 p-2 rounded-md shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
             </svg>
-            {{ os.tempoEstimado | number:'1.0-0' }} min
+          </div>
+          <div>
+            <p class="text-[10px] font-semibold text-blue-600">Ponto de Origem</p>
+            <p class="text-sm font-semibold text-blue-900">{{ base.nome }}</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Footer -->
-    <div class="mt-6 flex justify-end">
-      <button
-        (click)="mostrarMapa = false"
-        class="px-4 py-2 border rounded-lg"
-      >
-        Fechar
-      </button>
-    </div>
+      <div *ngIf="rotaOrdenada.length; else semRota" class="space-y-6">
+        <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+          <h3 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+            Ordem de Atendimento Sugerida
+          </h3>
 
+          <button
+            (click)="mostrarMapa = true"
+            class="flex items-center gap-2 px-5 py-2 bg-blue-800 hover:bg-blue-700 text-white rounded-md font-semibold text-sm transition-all shadow-sm"
+          >
+            Visualizar no Mapa
+          </button>
+        </div>
+
+        <div class="relative">
+          <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 z-0"></div>
+
+          <ol class="space-y-4 relative z-10">
+            <li
+              *ngFor="let os of rotaOrdenada; let i = index"
+              class="ml-2 bg-white p-5 border border-gray-200 rounded-xl shadow-sm hover:border-blue-300 transition-colors group"
+            >
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 border-2 border-white shadow-sm text-gray-700 font-bold">
+                    {{ i + 1 }}º
+                  </div>
+                  
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-semibold text-gray-800">{{ os.os }}</span>
+                      <span class="text-gray-300">|</span>
+                      <span class="text-sm font-medium text-gray-600">{{ os.servico }}</span>
+                    </div>
+                    <div class="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                      <span class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                        </svg>
+                        {{ os.bairro }}
+                      </span>
+                      <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                      <span>{{ os.endereco }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-4 pl-16 md:pl-0">
+                  <div class="text-right hidden sm:block">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase">Distância / Tempo</p>
+                    <p class="text-xs font-semibold text-gray-700">
+                      {{ os.distancia | number:'1.1-2' }} km • {{ os.tempoEstimado }} min
+                    </p>
+                  </div>
+                  
+                  <span
+                    class="px-3 py-1 rounded-full text-[10px] font-bold"
+                    [ngClass]="{
+                      'bg-red-100 text-red-800 border-red-100': os.prioridade === 'URGENTE',
+                      'bg-orange-100 text-orange-800 border-orange-100': os.prioridade === 'ALTA',
+                      'bg-indigo-100 text-indigo-700 border-indigo-100': os.prioridade === 'MEDIA',
+                      'bg-slate-200 text-slate-700 border-indigo-100': os.prioridade === 'BAIXA'
+                    }"
+                  >
+                    {{ os.prioridade }}
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <ng-template #semRota>
+        <div class="text-center py-12 bg-slate-50 rounded-xl border-2 border-dashed border-slate-200">
+          <p class="text-slate-400 font-medium">Selecione uma equipe para calcular a rota otimizada.</p>
+        </div>
+      </ng-template>
+    </div>
   </div>
 </div>
+
