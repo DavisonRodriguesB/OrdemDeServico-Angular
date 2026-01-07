@@ -48,39 +48,63 @@ export class RoutingComponent {
 
     if (!ordens.length) return;
 
-    this.rotaOrdenada = ordens
-      .map(os => {
+    /** Peso por prioridade */
+    const prioridadePeso: Record<string, number> = {
+      URGENTE: 4,
+      ALTA: 3,
+      MEDIA: 2,
+      BAIXA: 1,
+    };
+
+    /** Ordena inicialmente por prioridade */
+    const ordensOrdenadasPorPrioridade = [...ordens].sort(
+      (a, b) => prioridadePeso[b.prioridade] - prioridadePeso[a.prioridade]
+    );
+
+    /** Ponto inicial começa na base */
+    let pontoAtual = {
+      latitude: this.base.latitude,
+      longitude: this.base.longitude,
+    };
+
+    const restantes = [...ordensOrdenadasPorPrioridade];
+
+    /** Algoritmo guloso: próxima OS mais próxima do ponto atual */
+    while (restantes.length) {
+      let indiceMaisProxima = 0;
+      let menorDistancia = Infinity;
+
+      restantes.forEach((os, index) => {
         const distancia = this.calcularDistancia(
-          this.base.latitude,
-          this.base.longitude,
+          pontoAtual.latitude,
+          pontoAtual.longitude,
           os.latitude,
           os.longitude
         );
 
-        return {
-          ...os,
-          distancia,
-          tempoEstimado: distancia * 4, 
-        };
-      })
-      .sort((a, b) => {
-        const prioridadePeso = {
-          URGENTE: 4,
-          ALTA: 3,
-          MEDIA: 2,
-          BAIXA: 1,
-        };
-
-        const prioridadeDiff =
-          prioridadePeso[b.prioridade] - prioridadePeso[a.prioridade];
-
-        return prioridadeDiff !== 0
-          ? prioridadeDiff
-          : a.distancia - b.distancia;
+        if (distancia < menorDistancia) {
+          menorDistancia = distancia;
+          indiceMaisProxima = index;
+        }
       });
+
+      const osSelecionada = restantes.splice(indiceMaisProxima, 1)[0];
+
+      this.rotaOrdenada.push({
+        ...osSelecionada,
+        distancia: menorDistancia,
+        tempoEstimado: menorDistancia * 4, // regra atual de tempo
+      });
+
+      /** Atualiza ponto atual para a OS atendida */
+      pontoAtual = {
+        latitude: osSelecionada.latitude,
+        longitude: osSelecionada.longitude,
+      };
+    }
   }
 
-  /** Cálculo simples de distância (Haversine simplificado) */
+  /** Cálculo de distância (Haversine) */
   private calcularDistancia(
     lat1: number,
     lon1: number,
