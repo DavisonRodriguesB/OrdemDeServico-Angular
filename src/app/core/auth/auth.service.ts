@@ -8,9 +8,9 @@ export type UserRole = 'ADMIN' | 'SUPERVISOR' | 'OPERADOR';
 export class AuthService {
 
   private readonly ADMIN_USER = {
-    nome: 'Administrador',
-    email: 'admin@sistema.com',
-    password: '123456',
+    nome: 'Davo',
+    email: 'davo@sistema.com',
+    password: '@123456',
     role: 'ADMIN' as UserRole,
   };
 
@@ -22,7 +22,7 @@ export class AuthService {
     localStorage.setItem(
       'user',
       JSON.stringify({
-        name: 'Administrador',
+        name: this.ADMIN_USER.nome,
         email,
         role: this.ADMIN_USER.role,
       })
@@ -46,7 +46,7 @@ export class AuthService {
     return user ? JSON.parse(user).role : null;
   }
 
-  getUser() {
+  getUser(): { name: string; email: string; role: string } | null {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
