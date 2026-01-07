@@ -87,7 +87,7 @@ export class ServiceOrderExecutionComponent {
 
     setTimeout(() => {
       this.router.navigate(['/service-order']);
-    }, 1500);
+    }, 1300);
   }
 
   cancelar(): void {

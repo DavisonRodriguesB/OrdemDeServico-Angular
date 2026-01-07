@@ -8,8 +8,8 @@ export type UserRole = 'ADMIN' | 'SUPERVISOR' | 'OPERADOR';
 export class AuthService {
 
   private readonly ADMIN_USER = {
-    nome: 'Davo',
-    email: 'davo@sistema.com',
+    nome: 'Davison',
+    email: 'davison@sistema.com',
     password: '@123456',
     role: 'ADMIN' as UserRole,
   };
