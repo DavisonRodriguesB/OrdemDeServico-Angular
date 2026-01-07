@@ -62,7 +62,7 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
   },
 
   {
-    id: 4,
+    id: 5,
     os: '2025-004',
     servico: 'Religação de Urgência',
     tipo: 'Comercial',
@@ -77,7 +77,7 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
   },
 
   {
-  id: 5,
+  id: 6,
   os: '2025-005',
   servico: 'Instalação de Medidor',
   tipo: 'Comercial',
@@ -92,7 +92,7 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
 },
 
 {
-  id: 6,
+  id: 7,
   os: '2025-006',
   servico: 'Manutenção de Rede Elétrica',
   tipo: 'Manutenção',

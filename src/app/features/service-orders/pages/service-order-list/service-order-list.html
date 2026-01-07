@@ -128,25 +128,22 @@
                     <!-- Executar -->
                   <a
                     [routerLink]="
-                      os.status !== 'CONCLUIDO' && os.status !== 'CANCELADO'
-                        ? [os.id, 'execution']
-                        : null
-                    "
-                    [class.pointer-events-none]="
-                      os.status === 'CONCLUIDO' || os.status === 'CANCELADO'
-                    "
-                    [class.opacity-50]="
-                      os.status === 'CONCLUIDO' || os.status === 'CANCELADO'
-                    "
-                    class="p-3 border border-gray-300 rounded transition-colors
-                          hover:bg-gray-200"
-                    [title]="
-                      os.status === 'CONCLUIDO'
-                        ? 'Ordem de serviço já concluída'
-                        : os.status === 'CANCELADO'
-                        ? 'Ordem de serviço cancelada'
-                        : 'Executar'
-                    "
+                    ['ABERTO','ATRIBUIDO','EM_EXECUCAO'].includes(os.status)
+                      ? [os.id, 'execution']
+                      : null
+                      "
+                      [class.pointer-events-none]="
+                        !['ABERTO','ATRIBUIDO','EM_EXECUCAO'].includes(os.status)
+                      "
+                      [class.opacity-50]="
+                        !['ABERTO','ATRIBUIDO','EM_EXECUCAO'].includes(os.status)
+                      "
+                      class="p-3 border border-gray-300 rounded transition-colors hover:bg-gray-200"
+                      [title]="
+                        ['ABERTO','ATRIBUIDO','EM_EXECUCAO'].includes(os.status)
+                          ? 'Executar Serviço'
+                          : 'Serviço não pode ser executado'
+                      "
                   >
                     <span class="material-icons text-sm">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none"

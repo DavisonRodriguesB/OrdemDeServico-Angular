@@ -44,6 +44,16 @@ export class ServiceOrderService {
     }
   }
 
+  /** ✅ ATUALIZAR STATUS (CONCLUIR SERVIÇO) */
+  atualizarStatus(id: number, status: ServiceOrder['status']): void {
+    const os = this.serviceOrders.find(o => o.id === id);
+
+    if (!os) return;
+
+    os.status = status;
+  }
+
+  /** Cancelar OS */
   cancelar(id: number): void {
     const os = this.serviceOrders.find(o => o.id === id);
 

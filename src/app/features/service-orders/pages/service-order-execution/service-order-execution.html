@@ -1,1 +1,152 @@
-<p>Tela de Executar serviço</p>
+<!-- Mensagem de sucesso -->
+<div
+  *ngIf="successMessage"
+  class="mb-4 p-4 rounded-lg bg-green-100 text-green-800 border border-green-200"
+>
+  {{ successMessage }}
+</div>
+
+<!-- Resumo da Ordem de Serviço -->
+<div
+  *ngIf="serviceOrder"
+  class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 mb-6"
+>
+  <div class="flex justify-between items-start">
+    <div>
+      <h3 class="text-lg font-semibold text-gray-700">
+        OS {{ serviceOrder.os }}
+      </h3>
+      <p class="text-sm text-gray-500">
+        {{ serviceOrder.servico }}
+      </p>
+    </div>
+
+    <span
+      class="px-3 py-1 rounded-full text-sm font-medium"
+      [ngClass]="{
+        'bg-slate-200 text-gray-800': serviceOrder.status === 'ABERTO',
+        'bg-blue-100 text-blue-800': serviceOrder.status === 'ATRIBUIDO',
+        'bg-yellow-100 text-yellow-800': serviceOrder.status === 'EM_EXECUCAO',
+        'bg-green-200 text-green-800': serviceOrder.status === 'CONCLUIDO'
+      }"
+    >
+      {{ serviceOrder.status }}
+    </span>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 text-sm text-gray-600">
+    <div><strong>Tipo:</strong> {{ serviceOrder.tipo }}</div>
+    <div><strong>Prioridade:</strong> {{ serviceOrder.prioridade }}</div>
+    <div><strong>Prazo:</strong> {{ serviceOrder.prazoDias }} dias</div>
+    <div><strong>Bairro:</strong> {{ serviceOrder.bairro }}</div>
+    <div>
+      <strong>Valor:</strong>
+      R$ {{ serviceOrder.valor | number:'1.2-2' }}
+    </div>
+  </div>
+</div>
+
+<form
+  class="bg-white rounded-xl shadow-sm p-8 border border-gray-200 space-y-6"
+  [formGroup]="form"
+  (ngSubmit)="concluir()"
+>
+
+  <!-- Título -->
+  <div>
+    <h2 class="text-2xl font-bold text-gray-700">
+      Execução da Ordem de Serviço
+    </h2>
+    <p class="text-gray-500 text-sm">
+      Informe os dados finais para conclusão do serviço
+    </p>
+  </div>
+
+  <!-- Retorno de Campo -->
+  <div>
+    <label class="block text-sm font-medium text-gray-600 mb-1">
+      Retorno de campo
+    </label>
+
+    <select
+      formControlName="retornoCampo"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="">Selecione</option>
+      <option *ngFor="let retorno of retornosDisponiveis" [value]="retorno">
+        {{ retorno }}
+      </option>
+    </select>
+
+    <p
+      *ngIf="form.get('retornoCampo')?.touched && form.get('retornoCampo')?.invalid"
+      class="text-sm text-red-500 mt-1"
+    >
+      Retorno de campo é obrigatório
+    </p>
+  </div>
+
+  <!-- Observações -->
+  <div>
+    <label class="block text-sm font-medium text-gray-600 mb-1">
+      Observações
+    </label>
+
+    <textarea
+      rows="4"
+      formControlName="observacao"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Descreva informações relevantes da execução"
+    ></textarea>
+  </div>
+
+  <!-- Anexos -->
+  <div>
+    <label class="block text-sm font-medium text-gray-600 mb-2">
+      Anexos (imagens)
+    </label>
+
+    <div class="flex items-center gap-4">
+      <label
+        class="px-4 py-2 border border-gray-300 rounded-lg cursor-pointer
+               hover:bg-gray-100 text-sm font-medium text-gray-700"
+      >
+        + Adicionar imagens
+        <input
+          type="file"
+          multiple
+          hidden
+          (change)="onFilesSelected($event)"
+        />
+      </label>
+
+      <span class="text-sm text-gray-500">
+        {{ anexos.length }} arquivo(s) selecionado(s)
+      </span>
+    </div>
+  </div>
+
+  <!-- Botões -->
+  <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+    <button
+      type="button"
+      (click)="cancelar()"
+      class="px-4 py-2 border border-gray-300 rounded-lg
+             hover:bg-gray-100"
+    >
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      [disabled]="form.invalid || isConcluding"
+      class="px-6 py-2 bg-blue-900 text-white rounded-lg
+             hover:bg-blue-800 disabled:opacity-50"
+    >
+      Concluir serviço
+    </button>
+  </div>
+
+</form>
