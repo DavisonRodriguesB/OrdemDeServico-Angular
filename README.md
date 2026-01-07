@@ -56,65 +56,70 @@ src/app/
 
 🔹 Padrões Adotados
 
-Angular Standalone Components
+- Angular Standalone Components
 
-Lazy Loading por componente (loadComponent)
+- Lazy Loading por componente (loadComponent)
 
-Rotas centralizadas em app.routes.ts
+- Rotas centralizadas em app.routes.ts
 
-Separação clara de responsabilidades
+- Separação clara de responsabilidades
 
-Componentização focada em reutilização
+- Componentização focada em reutilização
 
-Serviços responsáveis por regras de negócio
+- Serviços responsáveis por regras de negócio
 
 🔹 Regras de Negócio Implementadas
 
-Equipes só recebem ordens compatíveis com seu tipo
+- Equipes só recebem ordens compatíveis com seu tipo
 
-Ordens concluídas não podem ser editadas
+- Ordens concluídas não podem ser editadas
 
-Execução do serviço só ocorre após atribuição
+- Execução do serviço só ocorre após atribuição
 
-Retorno de campo obrigatório para conclusão
+- Retorno de campo obrigatório para conclusão
 
-Roteirização inteligente:
+- Roteirização inteligente:
 
-O ponto inicial é a base operacional
+- O ponto inicial é a base operacional
 
-Após cada atendimento, a próxima OS considera o último ponto atendido
+- Após cada atendimento, a próxima OS considera o último ponto atendido
 
-Prioridade do serviço influencia a ordem de execução
+- Prioridade do serviço influencia a ordem de execução
 
-Distância calculada de forma sequencial (rota realista)
+- Distância calculada de forma sequencial (rota realista)
 
 🔹 Funcionalidades em Destaque
 
-Login simulado
+- Login Auth e Guard
 
-Gestão de equipes
+- Gestão de equipes
 
-Gestão de ordens de serviço
+- Gestão de ordens de serviço
 
-Atribuição de ordens por equipe
+- Atribuição de ordens por equipe
 
-Roteirização baseada em prioridade e distância
+- Roteirização baseada em prioridade e distância
 
-Cálculo de distância e tempo estimado
+- Cálculo de distância e tempo estimado
 
-Interface moderna com Tailwind CSS
+- Interface moderna com Tailwind CSS
 
 🎓 Objetivo Profissional
 
 Este projeto foi desenvolvido com foco em:
 
 📌 Portfólio pessoal
+
 📌 Processos seletivos
+
 📌 Demonstração de domínio em Angular moderno
+
 📌 Aplicação prática de regras de negócio
+
 📌 Boas práticas de arquitetura frontend
+
 
 👤 Autor
 
-Davison Rodrigues
+Davison Rodrigues Bentes
 Projeto em desenvolvimento para fins educacionais e profissionais.
