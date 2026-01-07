@@ -38,10 +38,10 @@ export class AllocationComponent {
   }
 
   carregarDados(): void {
-    // 🔹 Garante estado inicial correto ao entrar na tela
+    //  Garante estado inicial correto ao entrar na tela
     this.resetSelecoes();
 
-    // ✅ REGRA: apenas OS com status ABERTO podem ser alocadas
+    // REGRA: apenas OS com status ABERTO podem ser alocadas
     this.serviceOrders = this.allocationService
       .listarOrdensDisponiveis()
       .filter(os => os.status === 'ABERTO');
@@ -68,7 +68,7 @@ export class AllocationComponent {
       return;
     }
 
-    // 🔹 Regra: filtra equipes pelo tipo da OS
+    //  Regra: filtra equipes pelo tipo da OS
     this.filteredTeams = this.teams.filter(
       team => team.tipoServico === this.selectedServiceOrder!.tipo
     );

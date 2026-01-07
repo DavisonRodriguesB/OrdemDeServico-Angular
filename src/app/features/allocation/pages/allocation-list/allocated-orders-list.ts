@@ -28,12 +28,12 @@ export class AllocatedOrdersListComponent implements OnInit, OnChanges {
 
   constructor(private allocationService: AllocationService) {}
 
-  // 🔹 Carrega prévia ao abrir a tela
+  // Carrega prévia ao abrir a tela
   ngOnInit(): void {
     this.carregarPreviaGeral();
   }
 
-  // 🔹 Atualiza quando selecionar equipe
+  // Atualiza quando selecionar equipe
   ngOnChanges(): void {
     if (this.teamId) {
       this.carregarOrdensDaEquipe();
@@ -43,7 +43,7 @@ export class AllocatedOrdersListComponent implements OnInit, OnChanges {
   }
 
   // =========================
-  // 🔹 PRÉVIA GERAL
+  // PRÉVIA GERAL
   // =========================
   private carregarPreviaGeral(): void {
     this.previaPorEquipe = [];
@@ -76,7 +76,7 @@ export class AllocatedOrdersListComponent implements OnInit, OnChanges {
   }
 
   // =========================
-  // 🔹 LISTA POR EQUIPE
+  //  LISTA POR EQUIPE
   // =========================
   private carregarOrdensDaEquipe(): void {
     this.ordensAlocadas = [];

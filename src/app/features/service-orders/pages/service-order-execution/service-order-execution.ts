@@ -20,7 +20,6 @@ import { ServiceOrderService } from '../../../../core/services/service-order.ser
 export class ServiceOrderExecutionComponent {
 
   serviceOrder!: ServiceOrder;
-
   form!: FormGroup;
   anexos: File[] = [];
 
@@ -28,6 +27,9 @@ export class ServiceOrderExecutionComponent {
   errorMessage = '';
   isConcluding = false;
 
+  /** * Mapeamento de status de conclusão baseados no tipo da OS.
+   * Evita que um técnico de 'Obras' veja status de 'Comercial'.
+   */
   retornosPorTipo: Record<string, string[]> = {
     Comercial: ['Executado', 'Não Executado', 'Não Localizado'],
     Manutenção: ['Manutenção Concluída', 'Necessita Retorno', 'Manutenção não Executada'],
@@ -40,10 +42,12 @@ export class ServiceOrderExecutionComponent {
     private fb: FormBuilder,
     private serviceOrderService: ServiceOrderService
   ) {
+    // Captura o parâmetro ID da rota (ex: /execucao/123)
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.carregarOS(id);
   }
 
+  /** Busca os dados da OS e inicializa o formulário reativo */
   carregarOS(id: number): void {
     const os = this.serviceOrderService.buscarPorId(id);
 
@@ -54,17 +58,20 @@ export class ServiceOrderExecutionComponent {
 
     this.serviceOrder = os;
 
+    // Inicialização do formulário com validações
     this.form = this.fb.group({
-      retornoCampo: ['', Validators.required],
+      retornoCampo: ['', Validators.required], // Campo obrigatório
       observacao: [''],
     });
   }
 
+  /** Getter para facilitar o acesso à lista de status correta no HTML */
   get retornosDisponiveis(): string[] {
     if (!this.serviceOrder) return [];
     return this.retornosPorTipo[this.serviceOrder.tipo] || [];
   }
 
+  /** Captura arquivos selecionados e armazena no array de anexos */
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
@@ -72,12 +79,14 @@ export class ServiceOrderExecutionComponent {
     this.anexos = Array.from(input.files);
   }
 
-    concluir(): void {
+  /** Valida o formulário, salva a alteração e redireciona o usuário */
+  concluir(): void {
     if (this.form.invalid) {
-      this.form.markAllAsTouched();
+      this.form.markAllAsTouched(); // Ativa os avisos de erro no HTML
       return;
     }
 
+    // Persiste a mudança no serviço
     this.serviceOrderService.atualizarStatus(
       this.serviceOrder.id,
       'CONCLUIDO'
@@ -85,11 +94,13 @@ export class ServiceOrderExecutionComponent {
 
     this.successMessage = 'Serviço concluído com sucesso.';
 
+    // Pequeno delay para o usuário ler a mensagem de sucesso antes de sair
     setTimeout(() => {
       this.router.navigate(['/service-order']);
     }, 1300);
   }
 
+  /** Cancela a operação e volta para a listagem */
   cancelar(): void {
     this.router.navigate(['/service-order']);
   }

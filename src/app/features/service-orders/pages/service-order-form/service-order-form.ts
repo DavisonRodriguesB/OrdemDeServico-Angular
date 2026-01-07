@@ -64,7 +64,7 @@ export class ServiceOrderFormComponent implements OnInit {
       if (os) {
         this.form.patchValue(os);
 
-        /** 🔒 BLOQUEIA EDIÇÃO SE CONCLUÍDO OU CANCELADO */
+        /** BLOQUEIA EDIÇÃO SE CONCLUÍDO OU CANCELADO */
         if (os.status === 'CONCLUIDO' || os.status === 'CANCELADO') {
           this.form.disable();
         }

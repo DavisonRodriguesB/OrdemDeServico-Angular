@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
-// Importação do serviço de autenticação (ajuste o caminho se necessário)
+// Importação do serviço de autenticação para obter dados do usuário e realizar logout
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from '../../auth/auth.service';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css', // Mantendo o seu arquivo de CSS se existir
+  styleUrl: './sidebar.css', 
 })
 export class SidebarComponent implements OnInit {
   // Controle de estado do sidebar (Minimizado/Aberto)

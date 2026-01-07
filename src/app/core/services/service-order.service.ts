@@ -44,7 +44,7 @@ export class ServiceOrderService {
     }
   }
 
-  /** ✅ ATUALIZAR STATUS (CONCLUIR SERVIÇO) */
+  /**  ATUALIZAR STATUS (CONCLUIR SERVIÇO) */
   atualizarStatus(id: number, status: ServiceOrder['status']): void {
     const os = this.serviceOrders.find(o => o.id === id);
 

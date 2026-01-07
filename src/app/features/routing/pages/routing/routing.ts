@@ -69,7 +69,7 @@ export class RoutingComponent {
 
     const restantes = [...ordensOrdenadasPorPrioridade];
 
-    /** Algoritmo guloso: próxima OS mais próxima do ponto atual */
+    /** Algoritmo: próxima OS mais próxima do ponto atual */
     while (restantes.length) {
       let indiceMaisProxima = 0;
       let menorDistancia = Infinity;
