@@ -101,8 +101,8 @@ export const SERVICE_ORDERS_MOCK: ServiceOrder[] = [
   valor: 1500,
   prazoDias: 15,
   bairro: 'Parque Dez',
-  latitude: -3.1033,
-  longitude: -60.0256,
+  latitude: -3.10923,
+  longitude: -60.01934,
   endereco: 'Rua das Acácias, 678',
 },
 ];
