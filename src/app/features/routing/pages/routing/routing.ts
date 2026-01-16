@@ -114,18 +114,28 @@ export class RoutingComponent implements AfterViewInit {
 
     this.mostrarMapa = true;
 
+    // Aguarda o modal + DOM estarem disponíveis
     setTimeout(() => {
       this.inicializarMapa();
-    }, 100);
+    }, 150);
   }
 
   fecharMapa(): void {
     this.mostrarMapa = false;
+
+    if (this.directionsRenderer) {
+      this.directionsRenderer.setMap(null);
+    }
   }
 
   inicializarMapa(): void {
     const mapElement = document.getElementById('map');
     if (!mapElement) return;
+
+    if (!google || !google.maps) {
+      console.error('Google Maps API não carregada');
+      return;
+    }
 
     this.map = new google.maps.Map(mapElement, {
       center: {
@@ -139,11 +149,11 @@ export class RoutingComponent implements AfterViewInit {
   }
 
   desenharRota(): void {
-    if (!this.rotaOrdenada.length) return;
+    if (!this.rotaOrdenada.length || !this.map) return;
 
     const directionsService = new google.maps.DirectionsService();
-    this.directionsRenderer = new google.maps.DirectionsRenderer();
 
+    this.directionsRenderer = new google.maps.DirectionsRenderer();
     this.directionsRenderer.setMap(this.map);
 
     const waypoints = this.rotaOrdenada.slice(0, -1).map(os => ({
