@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { Team } from '../../../teams/models/team.model';
 import { ServiceOrder } from '../../../service-orders/models/service-order.model';
 import { AllocationService } from '../../../../core/services/allocation-service';
+
+declare const google: any;
 
 interface ServiceOrderRota extends ServiceOrder {
   distancia: number;
@@ -17,7 +19,7 @@ interface ServiceOrderRota extends ServiceOrder {
   imports: [CommonModule, FormsModule],
   templateUrl: './routing.html',
 })
-export class RoutingComponent {
+export class RoutingComponent implements AfterViewInit {
 
   teams: Team[] = [];
   selectedTeamId: number | null = null;
@@ -26,6 +28,12 @@ export class RoutingComponent {
 
   /** Controle do modal do mapa */
   mostrarMapa = false;
+
+  /** Instância do mapa do Google */
+  map!: any;
+
+  /** Responsável por renderizar a rota no mapa */
+  directionsRenderer!: any;
 
   /** Base fictícia (origem) */
   base = {
@@ -38,6 +46,8 @@ export class RoutingComponent {
     this.teams = this.allocationService.listarEquipesAtivas();
   }
 
+  ngAfterViewInit(): void {}
+
   gerarRota(): void {
     this.rotaOrdenada = [];
 
@@ -48,7 +58,6 @@ export class RoutingComponent {
 
     if (!ordens.length) return;
 
-    /** Peso por prioridade */
     const prioridadePeso: Record<string, number> = {
       URGENTE: 4,
       ALTA: 3,
@@ -56,12 +65,10 @@ export class RoutingComponent {
       BAIXA: 1,
     };
 
-    /** Ordena inicialmente por prioridade */
     const ordensOrdenadasPorPrioridade = [...ordens].sort(
       (a, b) => prioridadePeso[b.prioridade] - prioridadePeso[a.prioridade]
     );
 
-    /** Ponto inicial começa na base */
     let pontoAtual = {
       latitude: this.base.latitude,
       longitude: this.base.longitude,
@@ -69,7 +76,6 @@ export class RoutingComponent {
 
     const restantes = [...ordensOrdenadasPorPrioridade];
 
-    /** Algoritmo: próxima OS mais próxima do ponto atual */
     while (restantes.length) {
       let indiceMaisProxima = 0;
       let menorDistancia = Infinity;
@@ -93,10 +99,9 @@ export class RoutingComponent {
       this.rotaOrdenada.push({
         ...osSelecionada,
         distancia: menorDistancia,
-        tempoEstimado: menorDistancia * 4, // regra atual de tempo
+        tempoEstimado: menorDistancia * 4,
       });
 
-      /** Atualiza ponto atual para a OS atendida */
       pontoAtual = {
         latitude: osSelecionada.latitude,
         longitude: osSelecionada.longitude,
@@ -104,14 +109,78 @@ export class RoutingComponent {
     }
   }
 
-  /** Cálculo de distância (Haversine) */
+  abrirMapa(): void {
+    if (!this.rotaOrdenada.length) return;
+
+    this.mostrarMapa = true;
+
+    setTimeout(() => {
+      this.inicializarMapa();
+    }, 100);
+  }
+
+  fecharMapa(): void {
+    this.mostrarMapa = false;
+  }
+
+  inicializarMapa(): void {
+    const mapElement = document.getElementById('map');
+    if (!mapElement) return;
+
+    this.map = new google.maps.Map(mapElement, {
+      center: {
+        lat: this.base.latitude,
+        lng: this.base.longitude,
+      },
+      zoom: 12,
+    });
+
+    this.desenharRota();
+  }
+
+  desenharRota(): void {
+    if (!this.rotaOrdenada.length) return;
+
+    const directionsService = new google.maps.DirectionsService();
+    this.directionsRenderer = new google.maps.DirectionsRenderer();
+
+    this.directionsRenderer.setMap(this.map);
+
+    const waypoints = this.rotaOrdenada.slice(0, -1).map(os => ({
+      location: { lat: os.latitude, lng: os.longitude },
+      stopover: true,
+    }));
+
+    const destinoFinal = this.rotaOrdenada[this.rotaOrdenada.length - 1];
+
+    directionsService.route(
+      {
+        origin: {
+          lat: this.base.latitude,
+          lng: this.base.longitude,
+        },
+        destination: {
+          lat: destinoFinal.latitude,
+          lng: destinoFinal.longitude,
+        },
+        waypoints,
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (result: any, status: any) => {
+        if (status === google.maps.DirectionsStatus.OK && result) {
+          this.directionsRenderer.setDirections(result);
+        }
+      }
+    );
+  }
+
   private calcularDistancia(
     lat1: number,
     lon1: number,
     lat2: number,
     lon2: number
   ): number {
-    const R = 6371; // km
+    const R = 6371;
     const dLat = this.deg2rad(lat2 - lat1);
     const dLon = this.deg2rad(lon2 - lon1);
 
