@@ -1,126 +1,74 @@
-Sistema de Ordem de Serviço e Roteirização
+# Sistema de Ordem de Serviço e Roteirização
+*(Em desenvolvimento – fins educacionais e profissionais)*
 
-(Em desenvolvimento - fins educacionais e profissionais)
+🚀 **Demo online:** https://ordem-de-servico-angular.vercel.app/login
 
-Angular • Standalone • Frontend
+---
 
-🔹 Objetivo do Projeto
+## 📌 Sobre o Projeto
+Sistema frontend para **gestão de Ordens de Serviço (OS)**, com foco em planejamento, execução e acompanhamento de serviços em campo, incluindo **roteirização inteligente por equipes com visualização em mapa**.
 
-Este projeto tem como objetivo demonstrar, de forma prática e profissional, a construção de um Sistema de Gestão de Ordens de Serviço (OS) voltado para o planejamento, execução e acompanhamento de serviços em campo, incluindo roteirização inteligente por equipes.
+O projeto simula cenários reais de operação, aplicando **regras de negócio**, organização de código e **integração com Google Maps**, mesmo sem backend.
 
-O foco principal está em:
+> ⚠️ Os dados são simulados (mocks), com foco total em lógica de negócio, arquitetura frontend e experiência do usuário.
 
-Arquitetura frontend moderna
+---
 
-Organização e escalabilidade de código
+## 🗺️ Integração com Google Maps
+O sistema possui **integração com a API do Google Maps**, configurada via **Google Cloud**, permitindo:
 
-Boas práticas com Angular Standalone
+- Exibição da **roteirização diretamente no mapa**
+- Visualização da base operacional e dos pontos de atendimento
+- Representação visual da sequência de ordens de serviço
+- Simulação realista do deslocamento das equipes em campo
 
-Regras de negócio bem definidas
+Essa integração reforça o foco do projeto em **experiência do usuário** e **simulação de cenários operacionais reais**.
 
-Simulação realista de cenários operacionais
+---
 
-Todo o sistema é desenvolvido sem backend, utilizando dados mockados, com ênfase total em lógica de negócio e experiência frontend.
-
-🔹 Tecnologias Utilizadas
-
+## 🛠️ Tecnologias Utilizadas
 - Angular (Standalone Components)
-
 - Angular Router
-
 - TypeScript
-
 - Tailwind CSS
-
+- Google Maps API (Google Cloud)
 - Git & GitHub
 
-⚠️ Observação:
-Este projeto não utiliza backend. Todos os dados são simulados via mocks, com serviços responsáveis pela lógica de negócio.
-🔹 Arquitetura do Projeto
+---
 
-O projeto segue uma arquitetura organizada e escalável:
-
-src/app/
-
-├── core/ 
-
-├── shared/ 
-
-├── features/
-
-├── app.routes.ts
-
-├── app.ts
-
-└── app.component.*
-
-🔹 Padrões Adotados
-
-- Angular Standalone Components
-
-- Lazy Loading por componente (loadComponent)
-
-- Rotas centralizadas em app.routes.ts
-
-- Separação clara de responsabilidades
-
-- Componentização focada em reutilização
-
-- Serviços responsáveis por regras de negócio
-
-🔹 Regras de Negócio Implementadas
-
-- Equipes só recebem ordens compatíveis com seu tipo
-
-- Ordens concluídas não podem ser editadas
-
-- Execução do serviço só ocorre após atribuição
-
-- Retorno de campo obrigatório para conclusão
-
-- Roteirização inteligente:
-
-- O ponto inicial é a base operacional
-
-- Após cada atendimento, a próxima OS considera o último ponto atendido
-
-- Prioridade do serviço influencia a ordem de execução
-
-- Distância calculada de forma sequencial (rota realista)
-
-🔹 Funcionalidades em Destaque
-
-- Login Auth e Guard
-
+## ⚙️ Funcionalidades
+- Autenticação (Login e Auth Guard)
 - Gestão de equipes
-
 - Gestão de ordens de serviço
-
 - Atribuição de ordens por equipe
-
 - Roteirização baseada em prioridade e distância
-
+- Visualização da rota no Google Maps
 - Cálculo de distância e tempo estimado
+- Interface moderna e responsiva com Tailwind CSS
 
-- Interface moderna com Tailwind CSS
+---
 
-🎓 Objetivo Profissional
+## 🧠 Regras de Negócio Implementadas
+- Equipes recebem apenas ordens compatíveis com seu tipo
+- Ordens concluídas não podem ser editadas
+- Execução ocorre somente após atribuição
+- Retorno de campo obrigatório para conclusão
+- Roteirização inteligente:
+  - Ponto inicial definido pela base operacional
+  - Próxima OS considera o último ponto atendido
+  - Prioridade influencia a ordem de execução
+  - Distância calculada de forma sequencial (rota realista)
 
-Este projeto foi desenvolvido com foco em:
+---
 
-📌 Portfólio pessoal
+## 🧱 Arquitetura do Projeto
+Estrutura organizada e escalável:
 
-📌 Processos seletivos
-
-📌 Demonstração de domínio em Angular moderno
-
-📌 Aplicação prática de regras de negócio
-
-📌 Boas práticas de arquitetura frontend
-
-
-👤 Autor
-
-Davison Rodrigues Bentes
-
-Projeto em desenvolvimento para fins educacionais e profissionais.
+```txt
+src/app/
+├── core/
+├── shared/
+├── features/
+├── app.routes.ts
+├── app.ts
+└── app.component.*
